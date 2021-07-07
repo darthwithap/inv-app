@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.data
+package me.darthwithap.invapp.utils
 
 /**
  * A generic class that holds a value with its loading status.
@@ -7,11 +7,13 @@ package me.darthwithap.invapp.data
 sealed class Result<out T : Any> {
 
     data class Success<out T : Any>(val data: T) : Result<T>()
+    object Loading : Result<Nothing>()
     data class Error(val exception: Exception) : Result<Nothing>()
 
     override fun toString(): String {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
+            is Loading -> "Loading"
             is Error -> "Error[exception=$exception]"
         }
     }

@@ -1,2 +1,3 @@
 rootProject.name = "InvApp"
 include ':app'
+include ':api'

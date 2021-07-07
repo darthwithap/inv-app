@@ -1,24 +1,27 @@
 package me.darthwithap.invapp.ui.login
 
 import android.app.Activity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import me.darthwithap.api.models.entities.User
 import me.darthwithap.invapp.databinding.ActivityLoginBinding
 
 import me.darthwithap.invapp.R
+import me.darthwithap.invapp.ui.AuthViewModel
+
+private const val TAG = "LoginActivity"
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginViewModel: AuthViewModel
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,43 +35,47 @@ class LoginActivity : AppCompatActivity() {
         val login = binding.login
         val loading = binding.loading
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
-        loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
-            val loginState = it ?: return@Observer
+        loginViewModel.loginFormState.observe(this@LoginActivity, {
+            // disable login button unless username / password / shop code are valid
+            login.isEnabled = it.isDataValid
 
-            // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
-
-            if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+            if (it.usernameError != null) {
+                username.error = getString(it.usernameError)
             }
-            if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
+            if (it.passwordError != null) {
+                password.error = getString(it.passwordError)
+            }
+            if (it.shopError != null) {
+                // TODO show error to shopCode
+                //shopCode.error = getString(loginState.shopError)
             }
         })
 
-        loginViewModel.loginResult.observe(this@LoginActivity, Observer {
-            val loginResult = it ?: return@Observer
+        loginViewModel.loginResult.observe(this@LoginActivity, {
 
             loading.visibility = View.GONE
-            if (loginResult.error != null) {
-                showLoginFailed(loginResult.error)
+            if (it.error != null) {
+                Log.d(TAG, "onCreate: Error: ${it.error}")
+                showLoginFailed(it.error)
             }
-            if (loginResult.success != null) {
-                updateUiWithUser(loginResult.success)
+            if (it.success != null) {
+                updateUiWithUser(it.success)
             }
             setResult(Activity.RESULT_OK)
 
+            // TODO finish() call invoke
             //Complete and destroy login activity once successful
-            finish()
+            //finish()
         })
 
         username.afterTextChanged {
             loginViewModel.loginDataChanged(
                 username.text.toString(),
-                password.text.toString()
+                password.text.toString(),
+                // TODO read shop code from edit text of the shop code
+                "000"
             )
         }
 
@@ -76,7 +83,9 @@ class LoginActivity : AppCompatActivity() {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
                     username.text.toString(),
-                    password.text.toString()
+                    password.text.toString(),
+                    // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
+                    "000"
                 )
             }
 
@@ -85,7 +94,9 @@ class LoginActivity : AppCompatActivity() {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
                             username.text.toString(),
-                            password.text.toString()
+                            password.text.toString(),
+                            // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
+                            "000"
                         )
                 }
                 false
@@ -93,23 +104,24 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
+                loginViewModel.login(username.text.toString(), password.text.toString(), "000")
             }
         }
     }
 
-    private fun updateUiWithUser(model: LoggedInUserView) {
+    // TODO Use Domain User model here instead of the Api Model Entity User
+    private fun updateUiWithUser(user: User) {
         val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
+        // TODO : initiate successful logged in experience i.e. open Home Activity
         Toast.makeText(
             applicationContext,
-            "$welcome $displayName",
+            "$welcome ${user.displayName}",
             Toast.LENGTH_LONG
         ).show()
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
+    private fun showLoginFailed(errorString: String) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }
