@@ -11,10 +11,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import es.dmoral.toasty.Toasty
 import me.darthwithap.api.models.entities.User
-import me.darthwithap.invapp.databinding.ActivityLoginBinding
-
 import me.darthwithap.invapp.R
+import me.darthwithap.invapp.databinding.ActivityLoginBinding
 import me.darthwithap.invapp.ui.AuthViewModel
 
 private const val TAG = "LoginActivity"
@@ -30,9 +30,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
-        val password = binding.password
-        val login = binding.login
+        val username = binding.etUsername
+        val password = binding.etPassword
+        val shopCode = binding.etShopCode
+        val login = binding.btnLogin
         val loading = binding.loading
 
         loginViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -48,8 +49,7 @@ class LoginActivity : AppCompatActivity() {
                 password.error = getString(it.passwordError)
             }
             if (it.shopError != null) {
-                // TODO show error to shopCode
-                //shopCode.error = getString(loginState.shopError)
+                shopCode.error = getString(it.shopError)
             }
         })
 
@@ -74,8 +74,7 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.loginDataChanged(
                 username.text.toString(),
                 password.text.toString(),
-                // TODO read shop code from edit text of the shop code
-                "000"
+                shopCode.text.toString()
             )
         }
 
@@ -84,8 +83,7 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.loginDataChanged(
                     username.text.toString(),
                     password.text.toString(),
-                    // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
-                    "000"
+                    shopCode.text.toString()
                 )
             }
 
@@ -95,8 +93,7 @@ class LoginActivity : AppCompatActivity() {
                         loginViewModel.login(
                             username.text.toString(),
                             password.text.toString(),
-                            // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
-                            "000"
+                            shopCode.text.toString()
                         )
                 }
                 false
@@ -104,8 +101,11 @@ class LoginActivity : AppCompatActivity() {
 
             login.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                // READ SHOP CODE FROM EDIT TEXT OF SHOP CODE
-                loginViewModel.login(username.text.toString(), password.text.toString(), "000")
+                loginViewModel.login(
+                    username.text.toString(),
+                    password.text.toString(),
+                    shopCode.text.toString()
+                )
             }
         }
     }
@@ -122,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoginFailed(errorString: String) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        Toasty.error(applicationContext, errorString)
     }
 }
 

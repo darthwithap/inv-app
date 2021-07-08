@@ -78,7 +78,6 @@ class AuthViewModel : ViewModel() {
         } else {
             username.isNotBlank()
         }
-        //return username.isNotBlank()
     }
 
     // A placeholder password validation check
