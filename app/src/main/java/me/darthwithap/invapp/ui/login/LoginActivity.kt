@@ -1,6 +1,7 @@
 package me.darthwithap.invapp.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
 import me.darthwithap.api.models.entities.User
+import me.darthwithap.invapp.MainActivity
 import me.darthwithap.invapp.R
 import me.darthwithap.invapp.databinding.ActivityLoginBinding
 import me.darthwithap.invapp.ui.AuthViewModel
@@ -64,10 +66,6 @@ class LoginActivity : AppCompatActivity() {
                 updateUiWithUser(it.success)
             }
             setResult(Activity.RESULT_OK)
-
-            // TODO finish() call invoke
-            //Complete and destroy login activity once successful
-            //finish()
         })
 
         username.afterTextChanged {
@@ -78,7 +76,15 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        password.apply {
+        password.afterTextChanged {
+            loginViewModel.loginDataChanged(
+                username.text.toString(),
+                password.text.toString(),
+                shopCode.text.toString()
+            )
+        }
+
+        shopCode.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
                     username.text.toString(),
@@ -98,15 +104,15 @@ class LoginActivity : AppCompatActivity() {
                 }
                 false
             }
+        }
 
-            login.setOnClickListener {
-                loading.visibility = View.VISIBLE
-                loginViewModel.login(
-                    username.text.toString(),
-                    password.text.toString(),
-                    shopCode.text.toString()
-                )
-            }
+        login.setOnClickListener {
+            loading.visibility = View.VISIBLE
+            loginViewModel.login(
+                username.text.toString(),
+                password.text.toString(),
+                shopCode.text.toString()
+            )
         }
     }
 
@@ -119,10 +125,12 @@ class LoginActivity : AppCompatActivity() {
             "$welcome ${user.displayName}",
             Toast.LENGTH_LONG
         ).show()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showLoginFailed(errorString: String) {
-        Toasty.error(applicationContext, errorString)
+        Toasty.error(applicationContext, errorString).show()
     }
 }
 

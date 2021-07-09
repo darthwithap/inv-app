@@ -23,4 +23,13 @@
     <string name="password">Password</string>
     <string name="login_heading">Hello, hope you\'re good!</string>
     <string name="code">Code</string>
+    <string name="title_invoice">Invoice</string>
+    <string name="title_orders">Orders</string>
+    <string name="title_add_stock">Add Stock</string>
+    <string name="title_sales">Sales</string>
+    <string name="title_delivery">Delivery</string>
+    <string name="customers_name">Customer\'s Name</string>
+    <string name="done">Done</string>
+    <string name="products">Products</string>
+    <string name="coming_soon">Coming soon...</string>
 </resources>

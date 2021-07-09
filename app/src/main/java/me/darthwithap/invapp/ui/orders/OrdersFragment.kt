@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.ui.notifications
+package me.darthwithap.invapp.ui.orders
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import me.darthwithap.invapp.R
-import me.darthwithap.invapp.databinding.FragmentNotificationsBinding
+import me.darthwithap.invapp.databinding.FragmentOrdersBinding
 
-class NotificationsFragment : Fragment() {
+class OrdersFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private var _binding: FragmentNotificationsBinding? = null
+    private lateinit var ordersViewModel: OrdersViewModel
+    private var _binding: FragmentOrdersBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,14 +24,14 @@ class NotificationsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        ordersViewModel =
+            ViewModelProvider(this).get(OrdersViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentOrdersBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
+        val textView: TextView = binding.textView
+        ordersViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

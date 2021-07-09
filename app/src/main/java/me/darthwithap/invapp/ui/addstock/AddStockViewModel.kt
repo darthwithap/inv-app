@@ -1,13 +1,13 @@
-package me.darthwithap.invapp.ui.notifications
+package me.darthwithap.invapp.ui.addstock
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class AddStockViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "Add Stock Fragment"
     }
     val text: LiveData<String> = _text
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@+id/navigation_invoice">
+
+    <fragment
+        android:id="@+id/navigation_invoice"
+        android:name="me.darthwithap.invapp.ui.invoice.InvoiceFragment"
+        android:label="@string/title_invoice"
+        tools:layout="@layout/fragment_invoice" />
+
+    <fragment
+        android:id="@+id/navigation_orders"
+        android:name="me.darthwithap.invapp.ui.orders.OrdersFragment"
+        android:label="@string/title_orders"
+        tools:layout="@layout/fragment_orders" />
+
+    <fragment
+        android:id="@+id/navigation_add_stock"
+        android:name="me.darthwithap.invapp.ui.addstock.AddStockFragment"
+        android:label="@string/title_add_stock"
+        tools:layout="@layout/fragment_add_stock" />
+
+    <fragment
+        android:id="@+id/navigation_sales"
+        android:name="me.darthwithap.invapp.ui.sales.SalesFragment"
+        android:label="@string/title_sales"
+        tools:layout="@layout/fragment_sales" />
+
+    <fragment
+        android:id="@+id/navigation_delivery"
+        android:name="me.darthwithap.invapp.ui.delivery.DeliveryFragment"
+        android:label="@string/title_delivery"
+        tools:layout="@layout/fragment_delivery" />
+
+</navigation>
