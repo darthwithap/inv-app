@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/edit_text_height"
+    android:layout_margin="16dp"
+    android:background="@drawable/curve_bg_white_drop_shadow"
+    android:fontFamily="@font/montserrat_bold"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="16dp"
+    android:textColor="@color/black"
+    android:textSize="18sp"
+    tools:text="Godown 1">
+
+</TextView>

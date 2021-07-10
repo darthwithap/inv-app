@@ -26,10 +26,19 @@
     <string name="title_invoice">Invoice</string>
     <string name="title_orders">Orders</string>
     <string name="title_add_stock">Add Stock</string>
+    <string name="title_stock">Stock</string>
     <string name="title_sales">Sales</string>
     <string name="title_delivery">Delivery</string>
     <string name="customers_name">Customer\'s Name</string>
     <string name="done">Done</string>
+    <string name="add_godown">Add Godown</string>
     <string name="products">Products</string>
-    <string name="coming_soon">Coming soon...</string>
+    <string name="coming_soon">Coming soon…</string>
+    <string name="qty">Qty</string>
+    <string name="range">Range</string>
+    <string name="brand">Brand</string>
+    <string name="name">Name</string>
+    <string name="orders">Orders</string>
+    <string name="vertical_line">｜</string>
+    <string name="dot">•</string>
 </resources>

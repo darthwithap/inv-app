@@ -1,7 +1,6 @@
 package me.darthwithap.invapp.ui.invoice
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +33,8 @@ class InvoiceFragment : Fragment() {
             when (it) {
                 EditorInfo.IME_ACTION_NEXT -> {
                     invoiceViewModel.addItemToProductList()
+                    // Todo shift focus to new row first edit text
+                    // If edittext.isShown && !edittext.isFocused
                 }
             }
             false

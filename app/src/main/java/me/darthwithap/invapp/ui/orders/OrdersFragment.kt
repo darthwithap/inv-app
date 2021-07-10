@@ -8,16 +8,20 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import me.darthwithap.invapp.data.models.Godown
+import me.darthwithap.invapp.data.models.GodownOrder
 import me.darthwithap.invapp.databinding.FragmentOrdersBinding
 
 class OrdersFragment : Fragment() {
 
     private lateinit var ordersViewModel: OrdersViewModel
     private var _binding: FragmentOrdersBinding? = null
+    private val binding get() = _binding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var godownAdapter: GodownChipAdapter
+    private lateinit var godownOrdersAdapter: GodownOrderAdapter
+    private val godowns: ArrayList<Godown> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,15 +30,32 @@ class OrdersFragment : Fragment() {
     ): View? {
         ordersViewModel =
             ViewModelProvider(this).get(OrdersViewModel::class.java)
-
+        ordersViewModel.getGodowns()
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
-        val root: View = binding.root
 
-        val textView: TextView = binding.textView
-        ordersViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        // Godown Chip RecyclerView Setup
+        _binding?.rvGodownChips?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        godownAdapter = GodownChipAdapter(godowns)
+        _binding?.rvGodownChips?.adapter = godownAdapter
+
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ordersViewModel.godowns.observe(viewLifecycleOwner, {
+            godowns.clear()
+            godowns.addAll(it)
+            godownAdapter.notifyDataSetChanged()
+            updateGodownOrders()
         })
-        return root
+    }
+
+    private fun updateGodownOrders() {
+        _binding?.rvGodownOrders?.layoutManager = LinearLayoutManager(context)
+        godownOrdersAdapter = godowns[0].orders?.let { GodownOrderAdapter(it) }!!
+        _binding?.rvGodownOrders?.adapter = godownOrdersAdapter
     }
 
     override fun onDestroyView() {
