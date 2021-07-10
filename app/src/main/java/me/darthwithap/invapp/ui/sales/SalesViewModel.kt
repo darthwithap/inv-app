@@ -3,11 +3,29 @@ package me.darthwithap.invapp.ui.sales
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import me.darthwithap.invapp.data.models.Sale
+import java.util.*
+import kotlin.random.Random
 
 class SalesViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Sales Fragment"
+    private var _sales: MutableLiveData<List<Sale>> = MutableLiveData()
+    val sales: LiveData<List<Sale>> = _sales
+    private val saleList: MutableList<Sale> = mutableListOf()
+
+    fun getSales() {
+        val rand = Random.nextInt(1, 10)
+        saleList.clear()
+        for (i in 0..rand) {
+            saleList.add(
+                Sale(
+                    "Customer $i",
+                    "Seller $i",
+                    "Sale Details $i",
+                    isNewSale = Random.nextBoolean()
+                )
+            )
+        }
+        _sales.postValue(saleList)
     }
-    val text: LiveData<String> = _text
 }

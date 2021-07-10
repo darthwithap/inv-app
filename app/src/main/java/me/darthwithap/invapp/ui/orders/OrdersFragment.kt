@@ -4,18 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.darthwithap.invapp.data.models.Godown
-import me.darthwithap.invapp.data.models.GodownOrder
 import me.darthwithap.invapp.databinding.FragmentOrdersBinding
+import me.darthwithap.invapp.ui.GodownViewModel
 
 class OrdersFragment : Fragment() {
 
-    private lateinit var ordersViewModel: OrdersViewModel
+    private lateinit var godownViewModel: GodownViewModel
     private var _binding: FragmentOrdersBinding? = null
     private val binding get() = _binding
 
@@ -28,9 +26,9 @@ class OrdersFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        ordersViewModel =
-            ViewModelProvider(this).get(OrdersViewModel::class.java)
-        ordersViewModel.getGodowns()
+        godownViewModel =
+            ViewModelProvider(this).get(GodownViewModel::class.java)
+        godownViewModel.getGodowns()
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
         // Godown Chip RecyclerView Setup
@@ -44,7 +42,7 @@ class OrdersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ordersViewModel.godowns.observe(viewLifecycleOwner, {
+        godownViewModel.godowns.observe(viewLifecycleOwner, {
             godowns.clear()
             godowns.addAll(it)
             godownAdapter.notifyDataSetChanged()

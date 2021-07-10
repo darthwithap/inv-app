@@ -1,17 +1,18 @@
-package me.darthwithap.invapp.ui.orders
+package me.darthwithap.invapp.ui.addstock
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import me.darthwithap.invapp.data.models.Godown
+import me.darthwithap.invapp.databinding.ListItemGodownBinding
 import me.darthwithap.invapp.databinding.ListItemGodownChipBinding
 
-class GodownChipAdapter(private val godowns: List<Godown>) :
-    RecyclerView.Adapter<GodownChipAdapter.ViewHolder>() {
+class GodownAdapter(private val godowns: List<Godown>) :
+    RecyclerView.Adapter<GodownAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListItemGodownChipBinding.inflate(
+        val binding = ListItemGodownBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -29,7 +30,7 @@ class GodownChipAdapter(private val godowns: List<Godown>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: Godown) {
-            ListItemGodownChipBinding.bind(itemView).apply {
+            ListItemGodownBinding.bind(itemView).apply {
                 with(item) {
                     tvGodownName.text = name
                 }

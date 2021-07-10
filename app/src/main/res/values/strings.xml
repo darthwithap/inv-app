@@ -41,4 +41,8 @@
     <string name="orders">Orders</string>
     <string name="vertical_line">｜</string>
     <string name="dot">•</string>
+    <string name="big_dot">●</string>
+    <string name="enter_godown_name">Enter Godown Name</string>
+    <string name="sales">Sales</string>
+    <string name="search">Search</string>
 </resources>

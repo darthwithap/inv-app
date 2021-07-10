@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.ui.orders
+package me.darthwithap.invapp.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import me.darthwithap.invapp.data.models.GodownOrder
 import me.darthwithap.invapp.data.models.OrderProductItem
 import kotlin.random.Random
 
-class OrdersViewModel : ViewModel() {
+class GodownViewModel : ViewModel() {
 
 
     private var _godowns: MutableLiveData<List<Godown>> = MutableLiveData()
