@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.models.OrderProductItem
+import me.darthwithap.invapp.data.domain.models.OrderProductItem
 import me.darthwithap.invapp.databinding.ListItemGodownOrderProductBinding
 
 class OrderProductAdapter(private val products: List<OrderProductItem>) :

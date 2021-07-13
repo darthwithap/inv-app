@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.data.models
+package me.darthwithap.invapp.data.domain.models
 
 data class GodownOrder(
     val customerName: String,

@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.Job
-import me.darthwithap.invapp.data.models.InvoiceEntryItem
+import me.darthwithap.invapp.data.domain.models.InvoiceEntryItem
 
 private const val TAG = "InvoiceViewModel"
 

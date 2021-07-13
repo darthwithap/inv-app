@@ -3,60 +3,66 @@ package me.darthwithap.invapp.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import me.darthwithap.invapp.data.models.Godown
-import me.darthwithap.invapp.data.models.GodownOrder
-import me.darthwithap.invapp.data.models.OrderProductItem
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import me.darthwithap.api.models.requests.NewGodownRequest
+import me.darthwithap.invapp.data.godown.GodownRepository
+import me.darthwithap.invapp.data.domain.models.Godown
+import me.darthwithap.invapp.data.domain.models.GodownOrder
+import me.darthwithap.invapp.data.domain.models.OrderProductItem
+import me.darthwithap.invapp.ui.addstock.GodownsResult
+import me.darthwithap.invapp.ui.addstock.NewGodownResult
+import me.darthwithap.invapp.ui.login.LoginResult
+import me.darthwithap.invapp.utils.Result
 import kotlin.random.Random
 
 class GodownViewModel : ViewModel() {
 
-
-    private var _godowns: MutableLiveData<List<Godown>> = MutableLiveData()
-    val godowns: LiveData<List<Godown>> = _godowns
-    private val godownList: MutableList<Godown> = mutableListOf()
-
     private var _currentGodown: MutableLiveData<Godown> = MutableLiveData()
     val currentGodown: LiveData<Godown> = _currentGodown
 
+    private val _godownsResult = MutableLiveData<GodownsResult>()
+    val godownsResult: LiveData<GodownsResult> = _godownsResult
+
+    private val _newGodownResult = MutableLiveData<NewGodownResult>()
+    val newGodownResult: LiveData<NewGodownResult> = _newGodownResult
+
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     // Todo chip Implementation from recipe app
     // Todo pass godown order here!
-    fun getGodowns() {
-        godownList.clear()
-        val rand = Random.nextInt(1, 5)
-        for (i in 1..rand) {
-            godownList.add(
-                Godown(
-                    i.toString(), "Godown $i", generateOrders()
-                )
-            )
+
+    fun getAllGodowns() {
+        viewModelScope.launch {
+            when (val result = GodownRepository.getAllGodowns(true)) {
+                is Result.Success -> {
+                    _isLoading.postValue(false)
+                    _godownsResult.postValue(GodownsResult(success = result.data))
+                }
+                is Result.Error -> {
+                    _isLoading.postValue(false)
+                    _godownsResult.postValue(GodownsResult(error = result.exception.message))
+                }
+                is Result.Loading -> _isLoading.postValue(true)
+            }
         }
-        _godowns.postValue(godownList)
     }
 
-    private fun generateOrders(): List<GodownOrder>? {
-        val rand = Random.nextInt(1, 4)
-        val orders: MutableList<GodownOrder> = mutableListOf()
-        for (i in 0..rand) {
-            orders.add(i, GodownOrder("Customer $i", "username $i", generateProducts()))
+    fun createGodown(godownName: String) {
+        viewModelScope.launch {
+            when (val result = GodownRepository.createGodown(NewGodownRequest(godownName), true)) {
+                is Result.Success -> {
+                    _isLoading.postValue(false)
+                    _newGodownResult.postValue(NewGodownResult(success = result.data))
+                }
+                is Result.Error -> {
+                    _isLoading.postValue(false)
+                    _newGodownResult.postValue(NewGodownResult(error = result.exception.message))
+                }
+                is Result.Loading -> _isLoading.postValue(true)
+            }
         }
-        return orders
-    }
-
-    private fun generateProducts(): List<OrderProductItem> {
-        val rand = Random.nextInt(1, 3)
-        val products: MutableList<OrderProductItem> = mutableListOf()
-        for (i in 0..rand) {
-            products.add(
-                i, OrderProductItem(
-                    "Product $i",
-                    "Code $i", Random.nextFloat() * 10000,
-                    brand = "Brand $i",
-                    qty = Random.nextInt(1, 100),
-                    selected = Random.nextBoolean()
-                )
-            )
-        }
-        return products
     }
 
 }

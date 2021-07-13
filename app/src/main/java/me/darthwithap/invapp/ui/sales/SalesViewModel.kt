@@ -3,8 +3,7 @@ package me.darthwithap.invapp.ui.sales
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import me.darthwithap.invapp.data.models.Sale
-import java.util.*
+import me.darthwithap.invapp.data.domain.models.Sale
 import kotlin.random.Random
 
 class SalesViewModel : ViewModel() {

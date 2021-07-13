@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import me.darthwithap.invapp.data.models.Godown
+import es.dmoral.toasty.Toasty
+import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.FragmentOrdersBinding
 import me.darthwithap.invapp.ui.GodownViewModel
 
@@ -28,7 +29,7 @@ class OrdersFragment : Fragment() {
     ): View? {
         godownViewModel =
             ViewModelProvider(this).get(GodownViewModel::class.java)
-        godownViewModel.getGodowns()
+        godownViewModel.getAllGodowns()
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
         // Godown Chip RecyclerView Setup
@@ -42,12 +43,17 @@ class OrdersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        godownViewModel.godowns.observe(viewLifecycleOwner, {
-            godowns.clear()
-            godowns.addAll(it)
-            godownAdapter.notifyDataSetChanged()
-            updateGodownOrders()
+
+        godownViewModel.godownsResult.observe(viewLifecycleOwner, {
+            //loading.visibility = View.GONE
+            if (it.error != null) {
+                showError(it.error)
+            }
+            if (it.success != null) {
+                updateUi(it.success)
+            }
         })
+
     }
 
     private fun updateGodownOrders() {
@@ -59,5 +65,16 @@ class OrdersFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun updateUi(list: List<Godown>) {
+        godowns.clear()
+        godowns.addAll(list)
+        godownAdapter.notifyDataSetChanged()
+        updateGodownOrders()
+    }
+
+    private fun showError(error: String) {
+        context?.let { Toasty.error(it, error).show() }
     }
 }

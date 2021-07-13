@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.darthwithap.api.models.entities.User
+import me.darthwithap.api.models.entities.UserDto
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.invapp.data.auth.AuthRepository
 import me.darthwithap.invapp.utils.Result
@@ -17,8 +17,8 @@ import me.darthwithap.invapp.ui.login.LoginResult
 
 class AuthViewModel : ViewModel() {
 
-    private val _user = MutableLiveData<User?>()
-    val user: LiveData<User?> = _user
+    private val _user = MutableLiveData<UserDto?>()
+    val user: LiveData<UserDto?> = _user
 
     private val _token = MutableLiveData<String?>()
     val token: LiveData<String?> = _token
@@ -36,9 +36,8 @@ class AuthViewModel : ViewModel() {
         _isLoading.postValue(true)
 
         viewModelScope.launch {
-            // HERE refresh should be false by default to get data from cache first!
             when (val result =
-                AuthRepository.login(LoginRequest(username, password, shop), true)) {
+                AuthRepository.login(LoginRequest(username, password, shop))) {
                 is Result.Success -> {
                     _isLoading.postValue(false)
                     _user.postValue(result.data.user)

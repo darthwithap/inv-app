@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.models.GodownOrder
+import me.darthwithap.invapp.data.domain.models.GodownOrder
 import me.darthwithap.invapp.databinding.ListItemGodownOrderBinding
 
 class GodownOrderAdapter(private val orders: List<GodownOrder>) :

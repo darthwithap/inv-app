@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.models.Godown
+import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.ListItemGodownChipBinding
 
 class GodownChipAdapter(private val godowns: List<Godown>) :

@@ -2,14 +2,12 @@ package me.darthwithap.invapp.ui.sales
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.opengl.Visibility
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.models.Sale
+import me.darthwithap.invapp.data.domain.models.Sale
 import me.darthwithap.invapp.databinding.ListItemSaleBinding
 
 class SaleAdapter(private val sales: List<Sale>) :

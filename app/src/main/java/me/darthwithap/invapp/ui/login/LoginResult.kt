@@ -1,11 +1,8 @@
 package me.darthwithap.invapp.ui.login
 
-import me.darthwithap.api.models.entities.User
+import me.darthwithap.api.models.entities.UserDto
 
-/**
- * Authentication result : success (user details) or error message.
- */
 data class LoginResult(
-    val success: User? = null,
+    val success: UserDto? = null,
     val error: String? = null
 )

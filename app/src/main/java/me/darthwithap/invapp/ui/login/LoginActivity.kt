@@ -5,15 +5,12 @@ import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
 import es.dmoral.toasty.Toasty
-import me.darthwithap.api.models.entities.User
+import me.darthwithap.api.models.entities.UserDto
 import me.darthwithap.invapp.MainActivity
 import me.darthwithap.invapp.R
 import me.darthwithap.invapp.databinding.ActivityLoginBinding
@@ -118,13 +115,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // TODO Use Domain User model here instead of the Api Model Entity User
-    private fun updateUiWithUser(user: User) {
+    private fun updateUiWithUser(user: UserDto) {
         val welcome = getString(R.string.welcome)
-        // TODO : initiate successful logged in experience i.e. open Home Activity
-        Toast.makeText(
+        Toasty.success(
             applicationContext,
             "$welcome ${user.displayName}",
-            Toast.LENGTH_LONG
         ).show()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
