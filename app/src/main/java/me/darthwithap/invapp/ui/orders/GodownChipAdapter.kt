@@ -4,10 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.ListItemGodownChipBinding
 
-class GodownChipAdapter(private val godowns: List<Godown>) :
+class GodownChipAdapter(
+    private val godowns: List<Godown>,
+    private val isSelected: Boolean = false,
+    private val onClick: (String) -> Unit
+) :
     RecyclerView.Adapter<GodownChipAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,6 +37,13 @@ class GodownChipAdapter(private val godowns: List<Godown>) :
             ListItemGodownChipBinding.bind(itemView).apply {
                 with(item) {
                     tvGodownName.text = name
+                    root.isCheckable = isSelected
+                    root.setOnClickListener {
+                        if (!isSelected) {
+                            Toasty.info(itemView.context, godownId).show()
+                            onClick.invoke(godownId)
+                        }
+                    }
                 }
             }
         }

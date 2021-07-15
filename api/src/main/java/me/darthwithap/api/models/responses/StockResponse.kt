@@ -3,7 +3,7 @@ package me.darthwithap.api.models.responses
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import me.darthwithap.api.models.entities.StockData
+import me.darthwithap.api.models.entities.data.StockData
 
 @JsonClass(generateAdapter = true)
 data class StockResponse(

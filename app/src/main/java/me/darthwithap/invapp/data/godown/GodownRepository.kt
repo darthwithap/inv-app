@@ -1,7 +1,5 @@
 package me.darthwithap.invapp.data.godown
 
-import me.darthwithap.api.models.entities.GodownDto
-import me.darthwithap.api.models.entities.NewGodownDto
 import me.darthwithap.api.models.requests.NewGodownRequest
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.data.domain.utils.GodownDtoListMapper
@@ -49,36 +47,19 @@ object GodownRepository {
 
     suspend fun createGodown(
         godownRequest: NewGodownRequest,
-        refresh: Boolean
     ): Result<Godown> {
-        if (refresh) {
-            return when (val response = GodownDataSource.createGodown(godownRequest)) {
-                is Result.Success -> {
-                    if (response.data.error) {
-                        Result.Error(Exception(response.data.message))
-                    } else {
-                        Result.Success(GodownDtoMapper.mapToDomainModel(response.data.data))
-                    }
+        return when (val response = GodownDataSource.createGodown(godownRequest)) {
+            is Result.Success -> {
+                if (response.data.error) {
+                    Result.Error(Exception(response.data.message))
+                } else {
+                    Result.Success(GodownDtoMapper.mapToDomainModel(response.data.data))
                 }
-                is Result.Error -> {
-                    Result.Error(response.exception)
-                }
-                else -> Result.Loading
             }
-        } else {
-            return Result.Error(Exception("Cache Error"))
+            is Result.Error -> {
+                Result.Error(response.exception)
+            }
+            else -> Result.Loading
         }
-        // TODO Restore from cache first
-        // FROM CACHE
-//        else {
-//            val mapper = WeatherMapperLocal()
-//            val forecast = localDataSource.getWeather()
-//            if (forecast != null) {
-//                Result.Success(mapper.transformToDomain(forecast))
-//            } else {
-//                Result.Success()
-//            }
-//        }
     }
-
 }

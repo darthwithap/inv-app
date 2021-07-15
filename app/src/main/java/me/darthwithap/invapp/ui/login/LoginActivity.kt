@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import es.dmoral.toasty.Toasty
-import me.darthwithap.api.models.entities.UserDto
+import me.darthwithap.api.models.entities.dto.UserDto
 import me.darthwithap.invapp.MainActivity
 import me.darthwithap.invapp.R
 import me.darthwithap.invapp.databinding.ActivityLoginBinding
-import me.darthwithap.invapp.ui.AuthViewModel
+import me.darthwithap.invapp.ui.viewmodel.AuthViewModel
 import me.darthwithap.invapp.utils.extensions.afterTextChanged
+import java.util.*
 
 private const val TAG = "LoginActivity"
 

@@ -2,7 +2,7 @@ package me.darthwithap.invapp.data.auth
 
 import android.util.Log
 import me.darthwithap.api.InvApiClient
-import me.darthwithap.api.models.entities.LoginData
+import me.darthwithap.api.models.entities.data.LoginData
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.invapp.data.auth.network.AuthDataSource
 import me.darthwithap.invapp.utils.Result
@@ -17,9 +17,20 @@ private const val TAG = "AuthRepository"
 
 object AuthRepository {
 
-    fun logout() {
-        //TODO implement Logout in AuthRepo
-        //LoginDataSource.logout()
+    suspend fun logout(): Result<String> {
+        return when (val response = AuthDataSource.logout()) {
+            is Result.Success -> {
+                if (response.data.error) {
+                    Result.Error(Exception(response.data.message))
+                } else {
+                    Result.Success(response.data.message)
+                }
+            }
+            is Result.Error -> {
+                Result.Error(response.exception)
+            }
+            else -> Result.Loading
+        }
     }
 
     suspend fun login(loginRequest: LoginRequest): Result<LoginData> {
@@ -29,8 +40,6 @@ object AuthRepository {
                     Log.d(TAG, "login: error: ${response.data.error} mg: ${response.data.message}")
                     Result.Error(Exception(response.data.message))
                 } else {
-                    // TODO implement Mapper to Domain
-                    //Result.Success(mapper.transformToDomain(response.data))
                     InvApiClient.setAuthToken(response.data.data.token)
                     Result.Success(response.data.data)
                 }

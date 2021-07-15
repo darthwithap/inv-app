@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.darthwithap.invapp.databinding.FragmentInvoiceBinding
+import me.darthwithap.invapp.ui.viewmodel.InvoiceViewModel
 
 
 private const val TAG = "InvoiceFragment"

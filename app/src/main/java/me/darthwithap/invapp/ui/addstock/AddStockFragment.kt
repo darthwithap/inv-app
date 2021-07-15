@@ -2,6 +2,7 @@ package me.darthwithap.invapp.ui.addstock
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
@@ -14,7 +15,7 @@ import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.R
 import me.darthwithap.invapp.databinding.FragmentAddStockBinding
 import me.darthwithap.invapp.data.domain.models.Godown
-import me.darthwithap.invapp.ui.GodownViewModel
+import me.darthwithap.invapp.ui.viewmodel.GodownViewModel
 import me.darthwithap.invapp.utils.extensions.showKeyboard
 
 class AddStockFragment : Fragment() {
@@ -39,7 +40,14 @@ class AddStockFragment : Fragment() {
         _binding = FragmentAddStockBinding.inflate(inflater, container, false)
 
         _binding?.rvGodownList?.layoutManager = LinearLayoutManager(context)
-        godownAdapter = GodownAdapter(godowns)
+        godownAdapter = GodownAdapter(godowns) { id, name ->
+            val intent = Intent(activity, GodownStockActivity::class.java)
+            intent.apply {
+                putExtra(getString(R.string.intent_extra_godown_id), id)
+                putExtra(getString(R.string.intent_extra_godown_name), name)
+            }
+            startActivity(intent)
+        }
         _binding?.rvGodownList?.adapter = godownAdapter
 
         godownViewModel.godownsResult.observe(viewLifecycleOwner, {

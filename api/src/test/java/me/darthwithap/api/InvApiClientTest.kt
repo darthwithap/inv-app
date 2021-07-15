@@ -3,6 +3,7 @@ package me.darthwithap.api
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import me.darthwithap.api.models.requests.AddStockRequest
+import me.darthwithap.api.models.requests.CreateInvoiceRequest
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.api.models.requests.NewGodownRequest
 import org.junit.Test
@@ -13,7 +14,7 @@ class InvApiClientTest {
     private val authApi = InvApiClient.authApi
 
     private val token: String =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU0OTI1MTFkOTEwOTM5ZGE0NTgyNTMiLCJpYXQiOjE2MjU5OTkyNTl9.P3IdBoJ2GZl3tk1JD6bZRKWbmTfThjFHCO365Nt6v1Q"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGU0OTI1MTFkOTEwOTM5ZGE0NTgyNTMiLCJpYXQiOjE2MjYyNjE0MzN9.KgmQNsSze9DxtMAL04TYiMum5d4FlkehmEiKMUVIFIw"
 
     @Test
     fun `POST login`() {
@@ -98,4 +99,15 @@ class InvApiClientTest {
             assertEquals("Stock's History fetched successfully.", response.body()?.message)
         }
     }
+
+    @Test
+    fun `GET search stock`() {
+        InvApiClient.setAuthToken(token)
+        runBlocking {
+            val response =
+                authApi.searchStock("product")
+            assertEquals("Stock items fetched successfully.", response.body()?.message)
+        }
+    }
+
 }

@@ -4,17 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.provider.Settings.Global.putString
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import me.darthwithap.invapp.databinding.ActivityMainBinding
-import me.darthwithap.invapp.ui.AuthViewModel
+import me.darthwithap.invapp.ui.viewmodel.AuthViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+
+        val navController = navHostFragment.findNavController()
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(

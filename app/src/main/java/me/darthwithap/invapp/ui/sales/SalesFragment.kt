@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.darthwithap.invapp.data.domain.models.Sale
 import me.darthwithap.invapp.databinding.FragmentSalesBinding
+import me.darthwithap.invapp.ui.viewmodel.SalesViewModel
 
 class SalesFragment : Fragment() {
 

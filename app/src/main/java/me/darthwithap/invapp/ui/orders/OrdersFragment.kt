@@ -10,15 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.FragmentOrdersBinding
-import me.darthwithap.invapp.ui.GodownViewModel
+import me.darthwithap.invapp.ui.viewmodel.GodownViewModel
+import me.darthwithap.invapp.ui.viewmodel.InvoiceViewModel
 
 class OrdersFragment : Fragment() {
 
     private lateinit var godownViewModel: GodownViewModel
+    private lateinit var invoiceViewModel: InvoiceViewModel
     private var _binding: FragmentOrdersBinding? = null
     private val binding get() = _binding
 
-    private lateinit var godownAdapter: GodownChipAdapter
+    private lateinit var godownChipAdapter: GodownChipAdapter
     private lateinit var godownOrdersAdapter: GodownOrderAdapter
     private val godowns: ArrayList<Godown> = arrayListOf()
 
@@ -29,14 +31,20 @@ class OrdersFragment : Fragment() {
     ): View? {
         godownViewModel =
             ViewModelProvider(this).get(GodownViewModel::class.java)
+        invoiceViewModel =
+            ViewModelProvider(this).get(InvoiceViewModel::class.java)
+
         godownViewModel.getAllGodowns()
+
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
 
         // Godown Chip RecyclerView Setup
         _binding?.rvGodownChips?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        godownAdapter = GodownChipAdapter(godowns)
-        _binding?.rvGodownChips?.adapter = godownAdapter
+        godownChipAdapter = GodownChipAdapter(godowns) {
+            invoiceViewModel
+        }
+        _binding?.rvGodownChips?.adapter = godownChipAdapter
 
         return binding?.root
     }
@@ -70,7 +78,7 @@ class OrdersFragment : Fragment() {
     private fun updateUi(list: List<Godown>) {
         godowns.clear()
         godowns.addAll(list)
-        godownAdapter.notifyDataSetChanged()
+        godownChipAdapter.notifyDataSetChanged()
         updateGodownOrders()
     }
 

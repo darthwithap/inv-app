@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.domain.models.InvoiceEntryItem
 import me.darthwithap.invapp.databinding.ListItemInvoiceProductBinding
 
 private const val TAG = "InvoiceProductAdapter"

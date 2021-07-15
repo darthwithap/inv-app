@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.ListItemGodownBinding
 
-class GodownAdapter(private val godowns: List<Godown>) :
+class GodownAdapter(
+    private val godowns: List<Godown>,
+    private val onClick: (id: String, name: String) -> Unit
+) :
     RecyclerView.Adapter<GodownAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,6 +35,7 @@ class GodownAdapter(private val godowns: List<Godown>) :
             ListItemGodownBinding.bind(itemView).apply {
                 with(item) {
                     tvGodownName.text = name
+                    root.setOnClickListener { onClick.invoke(godownId, name) }
                 }
             }
         }

@@ -1,6 +1,6 @@
 package me.darthwithap.invapp.data.domain.utils
 
-import me.darthwithap.api.models.entities.NewGodownDto
+import me.darthwithap.api.models.entities.dto.NewGodownDto
 import me.darthwithap.invapp.data.domain.models.Godown
 
 object GodownDtoMapper : DomainMapper<NewGodownDto, Godown> {

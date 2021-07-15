@@ -4,7 +4,9 @@ import me.darthwithap.api.InvApiClient
 import me.darthwithap.api.models.requests.NewGodownRequest
 import me.darthwithap.api.models.responses.GodownsResponse
 import me.darthwithap.api.models.responses.NewGodownResponse
+import me.darthwithap.api.models.responses.PendingOrdersResponse
 import me.darthwithap.invapp.utils.Result
+import org.json.JSONObject
 import java.io.IOException
 
 object GodownDataSource {
@@ -16,7 +18,8 @@ object GodownDataSource {
             if (response.isSuccessful) {
                 response.body()?.let { Result.Success(it) }!!
             } else {
-                Result.Error(IOException(response.errorBody().toString()))
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                Result.Error(IOException(jsonObj.getString("message")))
             }
         } catch (exception: Exception) {
             Result.Error(exception)
@@ -29,7 +32,8 @@ object GodownDataSource {
             if (response.isSuccessful) {
                 response.body()?.let { Result.Success(it) }!!
             } else {
-                Result.Error(IOException(response.errorBody().toString()))
+                val jsonObj = JSONObject(response.errorBody()!!.charStream().readText())
+                Result.Error(IOException(jsonObj.getString("message")))
             }
         } catch (exception: java.lang.Exception) {
             Result.Error(exception)

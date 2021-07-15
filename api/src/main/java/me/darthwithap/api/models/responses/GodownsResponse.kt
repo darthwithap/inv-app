@@ -3,7 +3,7 @@ package me.darthwithap.api.models.responses
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import me.darthwithap.api.models.entities.GodownDto
+import me.darthwithap.api.models.entities.dto.GodownDto
 
 @JsonClass(generateAdapter = true)
 data class GodownsResponse(
