@@ -1,5 +1,6 @@
 package me.darthwithap.invapp.data.stock
 
+import android.util.Log
 import me.darthwithap.api.models.entities.data.StockData
 import me.darthwithap.api.models.entities.data.StockHistoryData
 import me.darthwithap.api.models.entities.data.StockSearchData
@@ -14,6 +15,8 @@ import me.darthwithap.invapp.data.stock.network.StockDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception
 
+private const val TAG = "StockRepository"
+
 object StockRepository {
 
     suspend fun addStock(
@@ -21,13 +24,16 @@ object StockRepository {
     ): Result<Stock> {
         return when (val response = StockDataSource.addStock(stockRequest)) {
             is Result.Success -> {
+                Log.d(TAG, "addStock: is error: ${response.data.error}")
                 if (response.data.error) {
+                    Log.d(TAG, "addStock: true error ${response.data.message}")
                     Result.Error(Exception(response.data.message))
                 } else {
                     Result.Success(StockDtoMapper.mapToDomainModel(response.data.data))
                 }
             }
             is Result.Error -> {
+                Log.d(TAG, "addStock: exception ${response.exception}")
                 Result.Error(response.exception)
             }
             else -> Result.Loading

@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.ui.orders
+package me.darthwithap.invapp.ui.orders.adapter
 
 import android.view.LayoutInflater
 import android.view.View

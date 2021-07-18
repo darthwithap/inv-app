@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.ui.orders
+package me.darthwithap.invapp.ui.invoice
 
 import me.darthwithap.invapp.data.domain.models.Invoice
 

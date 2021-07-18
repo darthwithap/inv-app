@@ -7,15 +7,15 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AddStockRequest(
     @Json(name = "brand")
-    val brand: String? = null,
+    val brand: String?,
     @Json(name = "code")
-    val code: String? = null,
+    val code: String?,
     @Json(name = "godown")
-    val godown: String,
+    val godownId: String,
     @Json(name = "name")
     val name: String,
     @Json(name = "quantity")
     val quantity: Int,
     @Json(name = "range")
-    val range: String? = null
+    val range: String?
 )

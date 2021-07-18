@@ -9,7 +9,7 @@ import me.darthwithap.invapp.databinding.ListItemGodownBinding
 
 class GodownAdapter(
     private val godowns: List<Godown>,
-    private val onClick: (id: String, name: String) -> Unit
+    val onClick: (id: String, name: String) -> Unit
 ) :
     RecyclerView.Adapter<GodownAdapter.ViewHolder>() {
 

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var authViewModel: AuthViewModel
 
+    private lateinit var navView: BottomNavigationView
+
     // TODO move to BaseActivity or BaseApplication
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -35,9 +39,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
 
         val navController = navHostFragment.findNavController()
         // Passing each menu ID as a set of Ids because each
@@ -48,6 +53,22 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_orders, R.id.navigation_sales
             )
         )
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_godown_add_stock -> {
+                    navView.visibility = View.GONE
+                }
+                R.id.navigation_godown_check_stock -> {
+                    navView.visibility = View.GONE
+                }
+                R.id.navigation_godown_stock_history -> {
+                    navView.visibility = View.GONE
+                }
+                else -> navView.visibility = View.VISIBLE
+            }
+        }
+
         // Cannot set action bar as it is a no action bar activity
         //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

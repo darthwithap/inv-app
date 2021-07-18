@@ -10,6 +10,8 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_product_name">Cannot be empty</string>
+    <string name="invalid_product_qty">Quantity must be > 0</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="invalid_shop_code">Shop Code must be >3 characters</string>
@@ -25,6 +27,7 @@
     <string name="code">Code</string>
     <string name="title_godown_add_stock">Godown Add Stock</string>
     <string name="title_godown_check_stock">Godown Check Stock</string>
+    <string name="title_godown_stock_history">Godown Stock History</string>
     <string name="title_invoice">Invoice</string>
     <string name="title_orders">Orders</string>
     <string name="title_add_stock">Add Stock</string>
@@ -47,7 +50,6 @@
     <string name="enter_godown_name">Enter Godown Name</string>
     <string name="sales">Sales</string>
     <string name="search">Search</string>
-    <string name="arg_godown_id">godownId</string>
     <string name="tap_to_check_stock">Tap to check stock</string>
     <string name="product_code">Product code</string>
     <string name="product_name">Product name</string>
@@ -56,4 +58,14 @@
     <string name="product_range">Product Range</string>
     <string name="intent_extra_godown_id">INTENT_EXTRA_GODOWN_ID</string>
     <string name="intent_extra_godown_name">INTENT_EXTRA_GODOWN_NAME</string>
+    <string name="godown_stock_details">Godown Stock Details</string>
+    <string name="code_caps">CODE</string>
+    <string name="name_caps">NAME</string>
+    <string name="brand_caps">BRAND</string>
+    <string name="range_caps">RANGE</string>
+    <string name="qty_caps">QTY</string>
+    <string name="godown_stock_history">Godown Stock History</string>
+    <string name="stock_caps">STOCK</string>
+    <string name="user_caps">USER</string>
+    <string name="by_caps">BY</string>
 </resources>

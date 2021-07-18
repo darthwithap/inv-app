@@ -13,20 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.R
 import me.darthwithap.invapp.data.domain.models.Stock
+import me.darthwithap.invapp.data.domain.models.StockHistory
 import me.darthwithap.invapp.databinding.FragmentGodownCheckStockBinding
+import me.darthwithap.invapp.databinding.FragmentGodownStockHistoryBinding
 import me.darthwithap.invapp.ui.viewmodel.StockViewModel
+import okhttp3.internal.notifyAll
 
-class GodownCheckStockFragment : Fragment() {
+class GodownStockHistoryFragment : Fragment() {
 
-    private var _binding: FragmentGodownCheckStockBinding? = null
+    private var _binding: FragmentGodownStockHistoryBinding? = null
     private val binding get() = _binding
     private lateinit var stockViewModel: StockViewModel
 
-    private val args: GodownCheckStockFragmentArgs by navArgs()
+    private val args: GodownStockHistoryFragmentArgs by navArgs()
 
     private lateinit var loading: ProgressBar
-    private lateinit var adapter: GodownStockAdapter
-    private val stocks: ArrayList<Stock> = arrayListOf()
+    private lateinit var adapter: GodownStockHistoryAdapter
+    private val histories: ArrayList<StockHistory> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,20 +37,18 @@ class GodownCheckStockFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         stockViewModel = ViewModelProvider(this).get(StockViewModel::class.java)
-        _binding = FragmentGodownCheckStockBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentGodownStockHistoryBinding.inflate(layoutInflater, container, false)
 
         loading = _binding?.loadingBar!!
         loading.visibility = View.VISIBLE
 
-        stockViewModel.getGodownStock(args.godownId)
+        stockViewModel.getStockHistory(args.stockId)
 
-        _binding?.rvGodownStockDetails?.layoutManager = LinearLayoutManager(requireContext())
-        adapter = GodownStockAdapter(stocks) { id, name ->
-            val action =
-                GodownCheckStockFragmentDirections.actionNavGodownCheckStockToStockHistory(id, name)
-            findNavController().navigate(action)
-        }
-        _binding?.rvGodownStockDetails?.adapter = adapter
+        _binding?.tvStockItemName?.text = args.stockName
+
+        _binding?.rvGodownStockHistory?.layoutManager = LinearLayoutManager(requireContext())
+        adapter = GodownStockHistoryAdapter(histories)
+        _binding?.rvGodownStockHistory?.adapter = adapter
 
         return binding?.root
     }
@@ -55,7 +56,7 @@ class GodownCheckStockFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        stockViewModel.godownStockResult.observe(viewLifecycleOwner, {
+        stockViewModel.stockHistoryResult.observe(viewLifecycleOwner, {
             loading.visibility = View.GONE
             if (it.error != null) {
                 showError(it.error)
@@ -66,7 +67,7 @@ class GodownCheckStockFragment : Fragment() {
         })
 
         _binding?.ivBack?.setOnClickListener {
-            findNavController().popBackStack(R.id.navigation_godown_add_stock, false)
+            findNavController().popBackStack(R.id.navigation_godown_check_stock, false)
         }
     }
 
@@ -79,9 +80,9 @@ class GodownCheckStockFragment : Fragment() {
         Toasty.error(requireContext(), errorString).show()
     }
 
-    private fun updateUi(list: List<Stock>) {
-        stocks.clear()
-        stocks.addAll(list)
+    private fun updateUi(list: List<StockHistory>) {
+        histories.clear()
+        histories.addAll(list)
         adapter.notifyDataSetChanged()
     }
 }

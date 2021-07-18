@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: AuthViewModel
     private lateinit var binding: ActivityLoginBinding
+    private var isDataValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.loginFormState.observe(this@LoginActivity, {
             // disable login button unless username / password / shop code are valid
             login.isEnabled = it.isDataValid
+            isDataValid = it.isDataValid
 
             if (it.usernameError != null) {
                 username.error = getString(it.usernameError)
@@ -93,24 +95,30 @@ class LoginActivity : AppCompatActivity() {
 
             setOnEditorActionListener { _, actionId, _ ->
                 when (actionId) {
-                    EditorInfo.IME_ACTION_DONE ->
-                        loginViewModel.login(
-                            username.text.toString(),
-                            password.text.toString(),
-                            shopCode.text.toString()
-                        )
+                    EditorInfo.IME_ACTION_DONE -> {
+                        if (isDataValid) {
+                            loading.visibility = View.VISIBLE
+                            loginViewModel.login(
+                                username.text.toString(),
+                                password.text.toString(),
+                                shopCode.text.toString()
+                            )
+                        } else showLoginFailed("Fields cant be empty")
+                    }
                 }
                 false
             }
         }
 
         login.setOnClickListener {
-            loading.visibility = View.VISIBLE
-            loginViewModel.login(
-                username.text.toString(),
-                password.text.toString(),
-                shopCode.text.toString()
-            )
+            if (isDataValid) {
+                loading.visibility = View.VISIBLE
+                loginViewModel.login(
+                    username.text.toString(),
+                    password.text.toString(),
+                    shopCode.text.toString()
+                )
+            } else showLoginFailed("Fields cant be empty")
         }
     }
 

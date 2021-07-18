@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.ui.addstock
+package me.darthwithap.invapp.ui.addstock.result
 
 import me.darthwithap.invapp.data.domain.models.Godown
 

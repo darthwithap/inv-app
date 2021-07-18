@@ -21,7 +21,19 @@
         android:id="@+id/navigation_add_stock"
         android:name="me.darthwithap.invapp.ui.addstock.AddStockFragment"
         android:label="@string/title_add_stock"
-        tools:layout="@layout/fragment_add_stock" />
+        tools:layout="@layout/fragment_add_stock">
+
+        <action
+            android:id="@+id/action_nav_add_stock_to_godown_add_stock"
+            app:destination="@id/navigation_godown_add_stock"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_add_stock"
+            app:popUpToInclusive="false" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_sales"
@@ -34,5 +46,74 @@
         android:name="me.darthwithap.invapp.ui.delivery.DeliveryFragment"
         android:label="@string/title_delivery"
         tools:layout="@layout/fragment_delivery" />
+
+    <fragment
+        android:id="@+id/navigation_godown_add_stock"
+        android:name="me.darthwithap.invapp.ui.addstock.godownstock.GodownAddStockFragment"
+        android:label="@string/title_godown_add_stock"
+        tools:layout="@layout/fragment_godown_add_stock">
+
+        <argument
+            android:name="godown_id"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="godown_name"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_nav_godown_add_stock_to_check_stock"
+            app:destination="@id/navigation_godown_check_stock"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_godown_add_stock"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_godown_check_stock"
+        android:name="me.darthwithap.invapp.ui.addstock.godownstock.GodownCheckStockFragment"
+        android:label="@string/title_godown_check_stock"
+        tools:layout="@layout/fragment_godown_check_stock">
+
+        <argument
+            android:name="godown_id"
+            app:argType="string"
+            app:nullable="false" />
+
+        <action
+            android:id="@+id/action_nav_godown_check_stock_to_stock_history"
+            app:destination="@id/navigation_godown_stock_history"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_godown_check_stock"
+            app:popUpToInclusive="false" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_godown_stock_history"
+        android:name="me.darthwithap.invapp.ui.addstock.godownstock.GodownStockHistoryFragment"
+        android:label="@string/title_godown_stock_history"
+        tools:layout="@layout/fragment_godown_stock_history">
+
+        <argument
+            android:name="stock_id"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="stock_name"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
 
 </navigation>

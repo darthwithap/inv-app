@@ -1,6 +1,7 @@
 package me.darthwithap.invapp.ui.orders
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.data.domain.models.Godown
+import me.darthwithap.invapp.data.domain.models.Invoice
 import me.darthwithap.invapp.databinding.FragmentOrdersBinding
+import me.darthwithap.invapp.ui.orders.adapter.GodownChipAdapter
+import me.darthwithap.invapp.ui.orders.adapter.GodownOrderAdapter
 import me.darthwithap.invapp.ui.viewmodel.GodownViewModel
 import me.darthwithap.invapp.ui.viewmodel.InvoiceViewModel
+
+private const val TAG = "OrdersFragment"
 
 class OrdersFragment : Fragment() {
 
@@ -20,9 +26,12 @@ class OrdersFragment : Fragment() {
     private var _binding: FragmentOrdersBinding? = null
     private val binding get() = _binding
 
+    private var godownIndex = 0
+
     private lateinit var godownChipAdapter: GodownChipAdapter
     private lateinit var godownOrdersAdapter: GodownOrderAdapter
     private val godowns: ArrayList<Godown> = arrayListOf()
+    private val invoices: ArrayList<Invoice> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +50,14 @@ class OrdersFragment : Fragment() {
         // Godown Chip RecyclerView Setup
         _binding?.rvGodownChips?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        godownChipAdapter = GodownChipAdapter(godowns) {
-            invoiceViewModel
+
+        godownChipAdapter = GodownChipAdapter(godowns) { id, _ ->
+            godownViewModel.onCurrentGodownChanged(id)
         }
+
+        godownOrdersAdapter = GodownOrderAdapter(invoices)
+        _binding?.rvGodownOrders?.adapter = godownOrdersAdapter
+
         _binding?.rvGodownChips?.adapter = godownChipAdapter
 
         return binding?.root
@@ -62,12 +76,27 @@ class OrdersFragment : Fragment() {
             }
         })
 
+        godownViewModel.currGodownId.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onViewCreated: currGodownId: $it")
+            invoiceViewModel.getPendingOrdersForGodown(it)
+        })
+
+        invoiceViewModel.pendingOrdersResult.observe(viewLifecycleOwner, {
+            Log.d(TAG, "onViewCreated: pendingOrdersResult: $it")
+            if (it.error != null) {
+                showError(it.error)
+            }
+            if (it.success != null) {
+                updateGodownOrders(it.success)
+            }
+        })
     }
 
-    private fun updateGodownOrders() {
+    private fun updateGodownOrders(list: List<Invoice>) {
         _binding?.rvGodownOrders?.layoutManager = LinearLayoutManager(context)
-        godownOrdersAdapter = godowns[0].orders?.let { GodownOrderAdapter(it) }!!
-        _binding?.rvGodownOrders?.adapter = godownOrdersAdapter
+        invoices.clear()
+        invoices.addAll(list)
+        godownOrdersAdapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {
@@ -76,10 +105,11 @@ class OrdersFragment : Fragment() {
     }
 
     private fun updateUi(list: List<Godown>) {
+        godownViewModel.onCurrentGodownChanged(list[godownIndex].godownId)
+        Log.d(TAG, "updateUi: init godown id: ${list[godownIndex].godownId}")
         godowns.clear()
         godowns.addAll(list)
         godownChipAdapter.notifyDataSetChanged()
-        updateGodownOrders()
     }
 
     private fun showError(error: String) {

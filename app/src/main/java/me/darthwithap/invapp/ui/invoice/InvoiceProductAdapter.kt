@@ -6,23 +6,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import me.darthwithap.invapp.data.domain.models.Invoice
 import me.darthwithap.invapp.databinding.ListItemInvoiceProductBinding
 
 private const val TAG = "InvoiceProductAdapter"
 
 class InvoiceProductAdapter(val editorActionListener: (Int) -> Boolean) :
-    ListAdapter<InvoiceEntryItem, InvoiceProductAdapter.InvoiceViewHolder>(
-        object : DiffUtil.ItemCallback<InvoiceEntryItem>() {
+    ListAdapter<Invoice, InvoiceProductAdapter.InvoiceViewHolder>(
+        object : DiffUtil.ItemCallback<Invoice>() {
             override fun areItemsTheSame(
-                oldItem: InvoiceEntryItem,
-                newItem: InvoiceEntryItem
+                oldItem: Invoice,
+                newItem: Invoice
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: InvoiceEntryItem,
-                newItem: InvoiceEntryItem
+                oldItem: Invoice,
+                newItem: Invoice
             ): Boolean {
                 return oldItem.toString() == newItem.toString()
             }
@@ -44,13 +45,13 @@ class InvoiceProductAdapter(val editorActionListener: (Int) -> Boolean) :
     }
 
     inner class InvoiceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: InvoiceEntryItem) {
+        fun bind(item: Invoice) {
             ListItemInvoiceProductBinding.bind(itemView).apply {
                 with(item) {
-                    etName.setText(name)
-                    etBrand.setText(brand)
-                    etPrice.setText(price)
-                    etQty.setText(qty.toString())
+//                    etName.setText(products.get())
+//                    etBrand.setText(brand)
+//                    etPrice.setText(price)
+//                    etQty.setText(qty.toString())
                 }
                 etQty.setOnEditorActionListener { _, actionId, _ ->
                     editorActionListener(actionId)

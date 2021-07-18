@@ -29,11 +29,11 @@ class InvoiceFragment : Fragment() {
     ): View? {
         invoiceViewModel =
             ViewModelProvider(this).get(InvoiceViewModel::class.java)
-        invoiceViewModel.addItemToProductList()
+        //invoiceViewModel.addItemToProductList()
         invoiceProductAdapter = InvoiceProductAdapter {
             when (it) {
                 EditorInfo.IME_ACTION_NEXT -> {
-                    invoiceViewModel.addItemToProductList()
+                    //invoiceViewModel.addItemToProductList()
                     // Todo shift focus to new row first edit text
                     // If edittext.isShown && !edittext.isFocused
                 }
@@ -50,9 +50,9 @@ class InvoiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        invoiceViewModel.invoiceProducts.observe(viewLifecycleOwner, {
-            invoiceProductAdapter.submitList(it)
-        })
+//        invoiceViewModel.invoiceProducts.observe(viewLifecycleOwner, {
+//            invoiceProductAdapter.submitList(it)
+//    })
     }
 
     override fun onDestroyView() {

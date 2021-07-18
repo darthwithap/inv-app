@@ -3,7 +3,6 @@ package me.darthwithap.api
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.runBlocking
 import me.darthwithap.api.models.requests.AddStockRequest
-import me.darthwithap.api.models.requests.CreateInvoiceRequest
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.api.models.requests.NewGodownRequest
 import org.junit.Test
@@ -62,7 +61,7 @@ class InvApiClientTest {
                 authApi.addStock(
                     AddStockRequest(
                         name = "Product name ${Random.nextInt()}",
-                        godown = "60eaca84c37201ca3664c696",
+                        godownId = "60eaca84c37201ca3664c696",
                         quantity = 15
                     )
                 )

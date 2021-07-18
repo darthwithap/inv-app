@@ -2,7 +2,6 @@ package me.darthwithap.invapp.ui.addstock
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
@@ -10,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
 import me.darthwithap.invapp.R
@@ -36,17 +36,17 @@ class AddStockFragment : Fragment() {
     ): View? {
         godownViewModel =
             ViewModelProvider(this).get(GodownViewModel::class.java)
+
+        // Get All Godowns
         godownViewModel.getAllGodowns()
+
         _binding = FragmentAddStockBinding.inflate(inflater, container, false)
 
         _binding?.rvGodownList?.layoutManager = LinearLayoutManager(context)
+
         godownAdapter = GodownAdapter(godowns) { id, name ->
-            val intent = Intent(activity, GodownStockActivity::class.java)
-            intent.apply {
-                putExtra(getString(R.string.intent_extra_godown_id), id)
-                putExtra(getString(R.string.intent_extra_godown_name), name)
-            }
-            startActivity(intent)
+            val action = AddStockFragmentDirections.actionNavAddStockToGodownAddStock(id, name)
+            findNavController().navigate(action)
         }
         _binding?.rvGodownList?.adapter = godownAdapter
 

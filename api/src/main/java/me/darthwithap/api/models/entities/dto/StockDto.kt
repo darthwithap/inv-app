@@ -7,9 +7,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class StockDto(
     @Json(name = "brand")
-    val brand: String,
+    val brand: String = "",
     @Json(name = "code")
-    val code: String,
+    val code: String = "",
     @Json(name = "createdAt")
     val createdAt: String,
     @Json(name = "godown")
@@ -21,7 +21,7 @@ data class StockDto(
     @Json(name = "quantity")
     val quantity: Int,
     @Json(name = "range")
-    val range: String,
+    val range: String = "",
     @Json(name = "shop")
     val shop: String,
     @Json(name = "updatedAt")
