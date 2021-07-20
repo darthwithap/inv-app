@@ -62,10 +62,6 @@ class GodownAddStockFragment : Fragment() {
             addStockButton.isEnabled = it.isDataValid
             isDataValid = it.isDataValid
 
-            Log.d(TAG, "onCreateView: from viewmodel: ${it.isDataValid}")
-            Log.d(TAG, "onCreateView isDataValid: $isDataValid")
-
-
             if (it.nameError != null) {
                 name.error = getString(it.nameError)
             }

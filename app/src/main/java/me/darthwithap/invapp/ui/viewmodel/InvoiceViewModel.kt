@@ -8,8 +8,12 @@ import kotlinx.coroutines.launch
 import me.darthwithap.api.models.entities.data.ProductData
 import me.darthwithap.api.models.requests.CreateInvoiceRequest
 import me.darthwithap.api.models.requests.PendingOrdersUpdateRequest
+import me.darthwithap.invapp.R
 import me.darthwithap.invapp.data.invoice.InvoiceRepository
-import me.darthwithap.invapp.ui.invoice.CreateInvoiceResult
+import me.darthwithap.invapp.ui.addstock.godownstock.AddStockFormState
+import me.darthwithap.invapp.ui.invoice.InvoiceFormState
+import me.darthwithap.invapp.ui.invoice.result.CreateInvoiceResult
+import me.darthwithap.invapp.ui.login.LoginFormState
 import me.darthwithap.invapp.ui.orders.result.PendingOrdersResult
 import me.darthwithap.invapp.ui.orders.result.PendingOrdersUpdateStatusResult
 import me.darthwithap.invapp.utils.Result
@@ -21,6 +25,9 @@ class InvoiceViewModel : ViewModel() {
 
     private var _pendingOrdersResult = MutableLiveData<PendingOrdersResult>()
     val pendingOrdersResult: LiveData<PendingOrdersResult> = _pendingOrdersResult
+
+    private val _invoiceForm = MutableLiveData<InvoiceFormState>()
+    val invoiceFormState: LiveData<InvoiceFormState> = _invoiceForm
 
     private var _createInvoiceResult = MutableLiveData<CreateInvoiceResult>()
     val createInvoiceResult: LiveData<CreateInvoiceResult> = _createInvoiceResult
@@ -56,7 +63,7 @@ class InvoiceViewModel : ViewModel() {
             )) {
                 is Result.Success -> {
                     _isLoading.postValue(false)
-                    _createInvoiceResult.postValue(CreateInvoiceResult())
+                    _createInvoiceResult.postValue(CreateInvoiceResult(success = result.data))
                 }
                 is Result.Error -> {
                     _isLoading.postValue(false)
@@ -93,5 +100,29 @@ class InvoiceViewModel : ViewModel() {
                 is Result.Loading -> _isLoading.postValue(true)
             }
         }
+    }
+
+    fun formDataChanged(name: String, godownId: String?, products: List<ProductData>) {
+        if (!isNameValid(name)) {
+            _invoiceForm.value = InvoiceFormState(customerError = R.string.invalid_customer_name)
+        } else if (!isGodownValid(godownId)) {
+            _invoiceForm.value = InvoiceFormState(godownError = R.string.invalid_godown_id)
+        } else if (!isProductsValid(products)) {
+            _invoiceForm.value = InvoiceFormState(godownError = R.string.invalid_invoice_products)
+        } else {
+            _invoiceForm.value = InvoiceFormState(isDataValid = true)
+        }
+    }
+
+    private fun isGodownValid(godownId: String?): Boolean {
+        return (godownId?.isNotBlank() == true && godownId != "-1")
+    }
+
+    private fun isNameValid(name: String): Boolean {
+        return (name.isNotBlank())
+    }
+
+    private fun isProductsValid(products: List<ProductData>): Boolean {
+        return (products.isNotEmpty())
     }
 }

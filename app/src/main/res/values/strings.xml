@@ -10,6 +10,9 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome "</string>
     <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_godown_id">Please select a godown</string>
+    <string name="invalid_customer_name">Please enter customer name</string>
+    <string name="invalid_invoice_products">Add at least one valid product</string>
     <string name="invalid_product_name">Cannot be empty</string>
     <string name="invalid_product_qty">Quantity must be > 0</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -68,4 +71,6 @@
     <string name="stock_caps">STOCK</string>
     <string name="user_caps">USER</string>
     <string name="by_caps">BY</string>
+    <string name="search_query">Search Query</string>
+    <string name="godown">Godown</string>
 </resources>

@@ -15,7 +15,7 @@
         android:fontFamily="@font/montserrat_semi_bold"
         android:text="@string/orders"
         android:textColor="@color/black"
-        android:textSize="28sp"
+        android:textSize="@dimen/fragment_heading_height"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

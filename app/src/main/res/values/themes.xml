@@ -57,4 +57,9 @@
 
     </style>
 
+    <style name="DropDownStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@android:color/transparent</item>
+        <item name="boxStrokeWidth">1dp</item>
+    </style>
+
 </resources>

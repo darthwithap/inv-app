@@ -1,54 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="2dp"
     android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/et_name"
+    <AutoCompleteTextView
+        android:id="@+id/actv_query"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:background="@drawable/curve_bg_gray_list_item_edit_text"
+        android:completionThreshold="1"
         android:gravity="center"
+        android:hint=""
         android:imeOptions="actionNext"
         android:importantForAutofill="no"
         android:inputType="text"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/et_brand"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:layout_weight="1"
-        android:background="@drawable/curve_bg_gray_list_item_edit_text"
-        android:gravity="center"
-        android:imeOptions="actionNext"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/et_price"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:layout_weight="1"
-        android:background="@drawable/curve_bg_gray_list_item_edit_text"
-        android:gravity="center"
-        android:imeOptions="actionNext"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="4dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="LabelFor" />
 
     <EditText
         android:id="@+id/et_qty"
@@ -58,11 +32,13 @@
         android:layout_weight="1"
         android:background="@drawable/curve_bg_gray_list_item_edit_text"
         android:gravity="center"
+        android:hint=""
         android:imeOptions="actionNext"
         android:importantForAutofill="no"
         android:inputType="number"
         android:paddingHorizontal="8dp"
         android:paddingVertical="4dp"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:ignore="LabelFor" />
 
 </LinearLayout>

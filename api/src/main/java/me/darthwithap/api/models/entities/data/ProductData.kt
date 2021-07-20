@@ -9,7 +9,7 @@ data class ProductData(
     @Json(name = "godown")
     val godown: String,
     @Json(name = "quantity")
-    val quantity: Int,
+    var quantity: Int,
     @Json(name = "stock")
-    val stock: String
+    var stock: String
 )

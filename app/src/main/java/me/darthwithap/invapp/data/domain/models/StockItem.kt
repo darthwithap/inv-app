@@ -5,4 +5,8 @@ data class StockItem(
     val godown: String,
     val id: String,
     val quantity: Int
-)
+) {
+    override fun toString(): String {
+        return displayName
+    }
+}
