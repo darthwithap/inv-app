@@ -43,7 +43,9 @@ interface InvAuthApi {
         @Query("text") queryText: String
     ): Response<StockSearchResponse>
 
-    // sales
+    @GET("invoice")
+    suspend fun getSales(): Response<SalesResponse>
+
     @POST("invoice")
     suspend fun createInvoice(
         @Body createInvoiceRequest: CreateInvoiceRequest

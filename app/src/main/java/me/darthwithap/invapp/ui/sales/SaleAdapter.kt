@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import me.darthwithap.invapp.data.domain.models.Sale
+import me.darthwithap.api.models.entities.dto.SalesInvoiceDto
 import me.darthwithap.invapp.databinding.ListItemSaleBinding
 
-class SaleAdapter(private val sales: List<Sale>) :
+class SaleAdapter(private val sales: List<SalesInvoiceDto>) :
     RecyclerView.Adapter<SaleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,7 +32,7 @@ class SaleAdapter(private val sales: List<Sale>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("NewApi", "SimpleDateFormat")
-        fun bind(item: Sale) {
+        fun bind(item: SalesInvoiceDto) {
             ListItemSaleBinding.bind(itemView).apply {
                 with(item) {
                     val simpleDateFormat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -40,11 +40,13 @@ class SaleAdapter(private val sales: List<Sale>) :
                     } else {
                         SimpleDateFormat()
                     }
-                    tvDot.visibility = if (isNewSale) View.INVISIBLE else View.VISIBLE
+                    tvDot.visibility =
+                        if (products.any { !it.deliveredStatus }) View.VISIBLE else View.INVISIBLE
                     tvCustomerName.text = customerName
-                    tvSalesPersonName.text = sellerName
-                    tvDate.text = simpleDateFormat.format(date)
-                    tvSaleDetails.text = saleDetails
+                    tvSalesPersonName.text = user
+                    //Todo set date to textview date format
+                    //tvDate.text = simpleDateFormat.format(updatedAt)
+                    tvSaleDetails.text = products.joinToString(separator = ", ")
                 }
             }
         }
