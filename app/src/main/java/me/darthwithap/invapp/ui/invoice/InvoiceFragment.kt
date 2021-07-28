@@ -81,7 +81,9 @@ class InvoiceFragment : Fragment() {
             },
             // search stock on autocomplete textview text changed
             {
-                if (it.isNotBlank()) stockViewModel.searchStock(it)
+                if (it.isNotBlank() && it.trim().length < 8) {
+                    stockViewModel.searchStock(it)
+                }
             },
             // autocomplete textview editor action listener
             { id, pos, stock ->

@@ -1,8 +1,6 @@
 package me.darthwithap.invapp.data.domain.utils
 
-import me.darthwithap.api.models.entities.dto.NewGodownDto
-import me.darthwithap.api.models.entities.dto.PendingStockDto
-import me.darthwithap.invapp.data.domain.models.Godown
+import me.darthwithap.invapp.data.local.entity.PendingStockDto
 import me.darthwithap.invapp.data.domain.models.PendingStock
 
 object PendingStockDtoMapper : DomainMapper<PendingStockDto, PendingStock> {

@@ -1,11 +1,6 @@
-package me.darthwithap.invapp.data.sales.network
+package me.darthwithap.invapp.data.network
 
 import me.darthwithap.api.InvApiClient
-import me.darthwithap.api.models.requests.CreateInvoiceRequest
-import me.darthwithap.api.models.requests.PendingOrdersUpdateRequest
-import me.darthwithap.api.models.responses.CreateInvoiceResponse
-import me.darthwithap.api.models.responses.PendingOrdersUpdateResponse
-import me.darthwithap.api.models.responses.PendingOrdersResponse
 import me.darthwithap.api.models.responses.SalesResponse
 import me.darthwithap.invapp.utils.Result
 import org.json.JSONObject

@@ -8,3 +8,13 @@ import java.util.*
 fun Date.toIsoFormat(): String? {
     return isoDateFormat.format(this)
 }
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun Date.toDateFormat(): String? {
+    return dateFormat.format(this)
+}
+
+@RequiresApi(Build.VERSION_CODES.N)
+fun Date.toSimpleDateFormat(): String? {
+    return simpleDateFormat.format(this)
+}

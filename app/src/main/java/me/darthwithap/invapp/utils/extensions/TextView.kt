@@ -15,6 +15,10 @@ val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getD
 @SuppressLint("ConstantLocale")
 val dateFormat = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
 
+@RequiresApi(Build.VERSION_CODES.N)
+@SuppressLint("ConstantLocale")
+val simpleDateFormat = SimpleDateFormat("hh:mm:ss", Locale.getDefault())
+
 var TextView.timestamp: String
     @RequiresApi(Build.VERSION_CODES.N)
     set(value) {
@@ -24,5 +28,17 @@ var TextView.timestamp: String
     @RequiresApi(Build.VERSION_CODES.N)
     get() {
         val date = dateFormat.parse(text.toString())
+        return isoDateFormat.format(date)
+    }
+
+var TextView.simpleTimestamp: String
+    @RequiresApi(Build.VERSION_CODES.N)
+    set(value) {
+        val date = isoDateFormat.parse(value)
+        text = simpleDateFormat.format(date)
+    }
+    @RequiresApi(Build.VERSION_CODES.N)
+    get() {
+        val date = simpleDateFormat.parse(text.toString())
         return isoDateFormat.format(date)
     }

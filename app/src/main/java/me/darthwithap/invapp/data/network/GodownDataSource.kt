@@ -1,10 +1,9 @@
-package me.darthwithap.invapp.data.godown.network
+package me.darthwithap.invapp.data.network
 
 import me.darthwithap.api.InvApiClient
 import me.darthwithap.api.models.requests.NewGodownRequest
 import me.darthwithap.api.models.responses.GodownsResponse
 import me.darthwithap.api.models.responses.NewGodownResponse
-import me.darthwithap.api.models.responses.PendingOrdersResponse
 import me.darthwithap.invapp.utils.Result
 import org.json.JSONObject
 import java.io.IOException

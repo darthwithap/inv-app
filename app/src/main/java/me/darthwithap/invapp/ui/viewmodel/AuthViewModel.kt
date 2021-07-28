@@ -1,5 +1,6 @@
 package me.darthwithap.invapp.ui.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,14 +9,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.darthwithap.api.models.entities.dto.UserDto
 import me.darthwithap.api.models.requests.LoginRequest
-import me.darthwithap.invapp.data.auth.AuthRepository
+import me.darthwithap.invapp.data.repository.AuthRepository
 import me.darthwithap.invapp.utils.Result
 
 import me.darthwithap.invapp.R
+import me.darthwithap.invapp.data.local.AuthDataSourceLocal
 import me.darthwithap.invapp.ui.login.LoginFormState
 import me.darthwithap.invapp.ui.login.LoginResult
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(val context: Context) : ViewModel() {
 
     private val _user = MutableLiveData<UserDto?>()
     val user: LiveData<UserDto?> = _user

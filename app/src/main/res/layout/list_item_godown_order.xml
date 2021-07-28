@@ -41,16 +41,21 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_customer_name"
             tools:text="Username" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_godown_order_products"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_username"
-            tools:listitem="@layout/list_item_godown_order_product" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_username">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_godown_order_products"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/list_item_godown_order_product" />
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

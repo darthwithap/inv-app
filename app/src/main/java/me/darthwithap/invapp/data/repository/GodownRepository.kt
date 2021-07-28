@@ -1,10 +1,10 @@
-package me.darthwithap.invapp.data.godown
+package me.darthwithap.invapp.data.repository
 
 import me.darthwithap.api.models.requests.NewGodownRequest
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.data.domain.utils.GodownDtoListMapper
 import me.darthwithap.invapp.data.domain.utils.GodownDtoMapper
-import me.darthwithap.invapp.data.godown.network.GodownDataSource
+import me.darthwithap.invapp.data.network.GodownDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception
 

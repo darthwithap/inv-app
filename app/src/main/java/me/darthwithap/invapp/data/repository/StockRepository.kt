@@ -1,17 +1,12 @@
-package me.darthwithap.invapp.data.stock
+package me.darthwithap.invapp.data.repository
 
 import android.util.Log
-import me.darthwithap.api.models.entities.data.StockData
-import me.darthwithap.api.models.entities.data.StockHistoryData
-import me.darthwithap.api.models.entities.data.StockSearchData
-import me.darthwithap.api.models.entities.dto.StockDto
 import me.darthwithap.api.models.requests.AddStockRequest
-import me.darthwithap.api.models.responses.StockSearchResponse
 import me.darthwithap.invapp.data.domain.models.Stock
 import me.darthwithap.invapp.data.domain.models.StockHistory
 import me.darthwithap.invapp.data.domain.models.StockItem
 import me.darthwithap.invapp.data.domain.utils.*
-import me.darthwithap.invapp.data.stock.network.StockDataSource
+import me.darthwithap.invapp.data.network.StockDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception
 

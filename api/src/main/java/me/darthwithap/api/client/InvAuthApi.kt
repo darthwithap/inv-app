@@ -54,7 +54,7 @@ interface InvAuthApi {
     @GET("invoice/pending")
     suspend fun getPendingOrdersForGodown(
         @Query("godown") godownId: String,
-        @Query("limit") limit: Int = 1
+        @Query("limit") limit: Int = 10
     ): Response<PendingOrdersResponse>
 
     @POST("invoice/pending")

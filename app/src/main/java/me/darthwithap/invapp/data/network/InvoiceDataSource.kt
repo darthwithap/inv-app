@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.data.invoice.network
+package me.darthwithap.invapp.data.network
 
 import me.darthwithap.api.InvApiClient
 import me.darthwithap.api.models.requests.CreateInvoiceRequest

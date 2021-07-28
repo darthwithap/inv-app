@@ -1,6 +1,5 @@
 package me.darthwithap.invapp.data.domain.utils
 
-import me.darthwithap.api.models.entities.dto.GodownDto
 import me.darthwithap.api.models.entities.dto.ProductDto
 import me.darthwithap.invapp.data.domain.models.Product
 

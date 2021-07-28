@@ -9,11 +9,9 @@ import me.darthwithap.api.models.entities.data.ProductData
 import me.darthwithap.api.models.requests.CreateInvoiceRequest
 import me.darthwithap.api.models.requests.PendingOrdersUpdateRequest
 import me.darthwithap.invapp.R
-import me.darthwithap.invapp.data.invoice.InvoiceRepository
-import me.darthwithap.invapp.ui.addstock.godownstock.AddStockFormState
+import me.darthwithap.invapp.data.repository.InvoiceRepository
 import me.darthwithap.invapp.ui.invoice.InvoiceFormState
 import me.darthwithap.invapp.ui.invoice.result.CreateInvoiceResult
-import me.darthwithap.invapp.ui.login.LoginFormState
 import me.darthwithap.invapp.ui.orders.result.PendingOrdersResult
 import me.darthwithap.invapp.ui.orders.result.PendingOrdersUpdateStatusResult
 import me.darthwithap.invapp.utils.Result
@@ -43,7 +41,12 @@ class InvoiceViewModel : ViewModel() {
             when (val result = InvoiceRepository.getPendingOrdersForGodown(godownId, true)) {
                 is Result.Success -> {
                     _isLoading.postValue(false)
-                    _pendingOrdersResult.postValue(PendingOrdersResult(result.data))
+                    val invoices = result.data.filter { invoice ->
+                        invoice.products?.filter { product ->
+                            product.godown == godownId
+                        }?.isNotEmpty()!!
+                    }
+                    _pendingOrdersResult.postValue(PendingOrdersResult(invoices))
                 }
                 is Result.Error -> {
                     _isLoading.postValue(false)

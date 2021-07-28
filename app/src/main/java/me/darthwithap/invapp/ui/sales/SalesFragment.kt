@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
-import me.darthwithap.api.models.entities.dto.SalesInvoiceDto
+import me.darthwithap.invapp.data.domain.models.SalesInvoice
 import me.darthwithap.invapp.databinding.FragmentSalesBinding
 import me.darthwithap.invapp.ui.viewmodel.SalesViewModel
 
@@ -17,7 +17,7 @@ class SalesFragment : Fragment() {
     private lateinit var salesViewModel: SalesViewModel
     private var _binding: FragmentSalesBinding? = null
     private val binding get() = _binding
-    private val sales: ArrayList<SalesInvoiceDto> = arrayListOf()
+    private val sales: ArrayList<SalesInvoice> = arrayListOf()
     private lateinit var saleAdapter: SaleAdapter
 
     override fun onCreateView(
@@ -56,7 +56,7 @@ class SalesFragment : Fragment() {
         _binding = null
     }
 
-    private fun updateUi(list: List<SalesInvoiceDto>) {
+    private fun updateUi(list: List<SalesInvoice>) {
         sales.clear()
         sales.addAll(list)
         saleAdapter.notifyDataSetChanged()

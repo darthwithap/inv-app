@@ -1,6 +1,5 @@
-package me.darthwithap.invapp.data.auth.network
+package me.darthwithap.invapp.data.network
 
-import android.util.Log
 import me.darthwithap.api.InvApiClient
 import me.darthwithap.invapp.utils.Result
 import me.darthwithap.api.models.requests.LoginRequest

@@ -1,4 +1,4 @@
-package me.darthwithap.invapp.data.stock.network
+package me.darthwithap.invapp.data.network
 
 import me.darthwithap.api.InvApiClient
 import me.darthwithap.api.models.requests.AddStockRequest
@@ -8,7 +8,6 @@ import me.darthwithap.api.models.responses.StockResponse
 import me.darthwithap.api.models.responses.StockSearchResponse
 import me.darthwithap.invapp.utils.Result
 import org.json.JSONObject
-import retrofit2.Response
 import java.io.IOException
 import java.lang.Exception
 

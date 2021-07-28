@@ -1,8 +1,8 @@
 package me.darthwithap.invapp.ui.sales.result
 
-import me.darthwithap.api.models.entities.dto.SalesInvoiceDto
+import me.darthwithap.invapp.data.domain.models.SalesInvoice
 
 data class SalesResult(
-    val success: List<SalesInvoiceDto>? = null,
+    val success: List<SalesInvoice>? = null,
     val error: String? = null
 )

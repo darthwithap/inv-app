@@ -16,6 +16,7 @@ import me.darthwithap.invapp.ui.orders.adapter.GodownChipAdapter
 import me.darthwithap.invapp.ui.orders.adapter.GodownOrderAdapter
 import me.darthwithap.invapp.ui.viewmodel.GodownViewModel
 import me.darthwithap.invapp.ui.viewmodel.InvoiceViewModel
+import kotlin.math.log
 
 private const val TAG = "OrdersFragment"
 
@@ -55,7 +56,14 @@ class OrdersFragment : Fragment() {
             godownViewModel.onCurrentGodownChanged(id)
         }
 
-        godownOrdersAdapter = GodownOrderAdapter(invoices)
+        godownOrdersAdapter = GodownOrderAdapter(invoices) { buttonView, isChecked ->
+            if (buttonView.isChecked) {
+                Log.d(TAG, "onCreateView: buttonView.isChecked: true")
+            } else
+                Log.d(TAG, "onCreateView: buttonView.isChecked: false")
+            if (isChecked) Log.d(TAG, "onCreateView: isChecked: true")
+            else Log.d(TAG, "onCreateView: isChecked: false")
+        }
         _binding?.rvGodownOrders?.adapter = godownOrdersAdapter
 
         _binding?.rvGodownChips?.adapter = godownChipAdapter
@@ -77,17 +85,24 @@ class OrdersFragment : Fragment() {
         })
 
         godownViewModel.currGodownId.observe(viewLifecycleOwner, {
-            Log.d(TAG, "onViewCreated: currGodownId: $it")
             invoiceViewModel.getPendingOrdersForGodown(it)
         })
 
         invoiceViewModel.pendingOrdersResult.observe(viewLifecycleOwner, {
-            Log.d(TAG, "onViewCreated: pendingOrdersResult: $it")
             if (it.error != null) {
                 showError(it.error)
             }
             if (it.success != null) {
                 updateGodownOrders(it.success)
+            }
+        })
+
+        invoiceViewModel.pendingOrdersUpdateStatusResult.observe(viewLifecycleOwner, {
+            if (it.error != null) {
+                showError(it.error)
+            }
+            if (it.success != null) {
+                showSuccess(it.success)
             }
         })
     }
@@ -106,7 +121,6 @@ class OrdersFragment : Fragment() {
 
     private fun updateUi(list: List<Godown>) {
         godownViewModel.onCurrentGodownChanged(list[godownIndex].godownId)
-        Log.d(TAG, "updateUi: init godown id: ${list[godownIndex].godownId}")
         godowns.clear()
         godowns.addAll(list)
         godownChipAdapter.notifyDataSetChanged()
@@ -114,5 +128,9 @@ class OrdersFragment : Fragment() {
 
     private fun showError(error: String) {
         context?.let { Toasty.error(it, error).show() }
+    }
+
+    private fun showSuccess(success: String) {
+        context?.let { Toasty.success(it, success).show() }
     }
 }

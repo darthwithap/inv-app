@@ -1,7 +1,8 @@
-package me.darthwithap.invapp.data.sales
+package me.darthwithap.invapp.data.repository
 
-import me.darthwithap.api.models.entities.dto.SalesInvoiceDto
-import me.darthwithap.invapp.data.sales.network.SalesDataSource
+import me.darthwithap.invapp.data.domain.models.SalesInvoice
+import me.darthwithap.invapp.data.domain.utils.SalesInvoiceDtoListMapper
+import me.darthwithap.invapp.data.network.SalesDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception
 
@@ -9,7 +10,7 @@ object SalesRepository {
 
     suspend fun getSales(
         refresh: Boolean
-    ): Result<List<SalesInvoiceDto>> {
+    ): Result<List<SalesInvoice>> {
         if (refresh) {
             return when (val response =
                 SalesDataSource.getSales()
@@ -18,7 +19,7 @@ object SalesRepository {
                     if (response.data.error) {
                         Result.Error(Exception(response.data.message))
                     } else {
-                        Result.Success(response.data.data.invoices)
+                        Result.Success(SalesInvoiceDtoListMapper.mapToDomainModel(response.data.data.invoices))
                     }
                 }
                 is Result.Error -> {

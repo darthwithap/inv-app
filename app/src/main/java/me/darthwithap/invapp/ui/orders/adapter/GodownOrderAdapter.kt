@@ -4,12 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import me.darthwithap.invapp.data.domain.models.Invoice
 import me.darthwithap.invapp.databinding.ListItemGodownOrderBinding
 
-class GodownOrderAdapter(private val orders: List<Invoice>) :
+class GodownOrderAdapter(
+    private val orders: List<Invoice>,
+    private val onCheckedChange: (buttonView: CompoundButton, isChecked: Boolean) -> Unit
+) :
     RecyclerView.Adapter<GodownOrderAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,8 +39,11 @@ class GodownOrderAdapter(private val orders: List<Invoice>) :
                 with(item) {
                     tvCustomerName.text = customerName
                     tvUsername.text = userName
-                    // Order Products RecyclerView Setup
-                    val productAdapter = products?.let { OrderProductAdapter(it) }
+                    val productAdapter = products?.let {
+                        OrderProductAdapter(it) { buttonView, isChecked ->
+                            onCheckedChange.invoke(buttonView, isChecked)
+                        }
+                    }
                     rvGodownOrderProducts.layoutManager = LinearLayoutManager(context)
                     rvGodownOrderProducts.adapter = productAdapter
                 }

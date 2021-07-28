@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.darthwithap.api.models.requests.AddStockRequest
 import me.darthwithap.invapp.R
-import me.darthwithap.invapp.data.stock.StockRepository
+import me.darthwithap.invapp.data.repository.StockRepository
 import me.darthwithap.invapp.ui.addstock.godownstock.AddStockFormState
 import me.darthwithap.invapp.ui.addstock.result.*
 import me.darthwithap.invapp.utils.Result

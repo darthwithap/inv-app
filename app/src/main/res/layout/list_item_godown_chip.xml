@@ -9,14 +9,13 @@
     android:layout_marginHorizontal="4dp"
     android:checkable="true"
     android:checked="false"
-    android:clickable="true"
     android:elevation="2dp"
-    android:focusable="true"
     android:fontFamily="@font/montserrat"
-    android:foreground="?selectableItemBackground"
     android:textColor="@color/black"
     android:textSize="14sp"
     app:chipBackgroundColor="@color/colorPrimary20"
+    app:chipEndPadding="2dp"
+    app:chipStartPadding="2dp"
     tools:text="Godown">
 
 </com.google.android.material.chip.Chip>

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.darthwithap.invapp.data.sales.SalesRepository
+import me.darthwithap.invapp.data.repository.SalesRepository
 import me.darthwithap.invapp.ui.sales.result.SalesResult
 import me.darthwithap.invapp.utils.Result
 

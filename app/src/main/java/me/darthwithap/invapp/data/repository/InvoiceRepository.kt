@@ -1,10 +1,10 @@
-package me.darthwithap.invapp.data.invoice
+package me.darthwithap.invapp.data.repository
 
 import me.darthwithap.api.models.requests.CreateInvoiceRequest
 import me.darthwithap.api.models.requests.PendingOrdersUpdateRequest
 import me.darthwithap.invapp.data.domain.models.Invoice
 import me.darthwithap.invapp.data.domain.utils.InvoiceDtoListMapper
-import me.darthwithap.invapp.data.invoice.network.InvoiceDataSource
+import me.darthwithap.invapp.data.network.InvoiceDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception
 

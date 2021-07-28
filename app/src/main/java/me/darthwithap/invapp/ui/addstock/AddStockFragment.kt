@@ -84,7 +84,7 @@ class AddStockFragment : Fragment() {
                 dialog?.window?.attributes?.windowAnimations = R.style.PauseDialogAnimation
                 dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog?.setContentView(R.layout.item_dialog_input_add_godown)
-                dialog?.setCancelable(false)
+                dialog?.setCancelable(true)
 
                 val size = Point()
                 val wm = context?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
