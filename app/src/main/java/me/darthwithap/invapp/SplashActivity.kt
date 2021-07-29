@@ -21,8 +21,6 @@ import me.darthwithap.invapp.databinding.ActivitySplashBinding
 import me.darthwithap.invapp.ui.login.LoginActivity
 import me.darthwithap.invapp.ui.viewmodel.AuthViewModel
 
-private const val TAG = "Splash"
-
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
@@ -47,12 +45,9 @@ class SplashActivity : AppCompatActivity() {
 
         if (token != null) {
             InvApiClient.setAuthToken(token)
-            Log.d(TAG, "onCreate: setting token in splash (not null): $token")
             authViewModel.setToken(token)
         } else {
-            Log.d(TAG, "onCreate: setting token in splash (not null): $token")
             authViewModel.setToken(null)
-
         }
 
         authViewModel.token.observe({ lifecycle }) {
@@ -60,13 +55,11 @@ class SplashActivity : AppCompatActivity() {
                 sharedPreferences.edit {
                     putString(resources.getString(R.string.prefs_key_token), token)
                 }
-                Log.d(TAG, "onPostCreate: not null token observing: $token")
                 startActivity(Intent(this, MainActivity::class.java))
             } ?: run {
                 sharedPreferences.edit {
                     remove(resources.getString(R.string.prefs_key_token))
                 }
-                Log.d(TAG, "onPostCreate: null token observing: moving to login")
                 startActivity(Intent(this, LoginActivity::class.java))
             }
             finish()

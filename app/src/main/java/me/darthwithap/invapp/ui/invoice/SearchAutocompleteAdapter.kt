@@ -39,7 +39,6 @@ class SearchAutocompleteAdapter(
         val qty = view.findViewById<TextView>(R.id.tv_search_qty)
         name.text = items[position].displayName
         qty.text = items[position].quantity.toString()
-
         return view
     }
 

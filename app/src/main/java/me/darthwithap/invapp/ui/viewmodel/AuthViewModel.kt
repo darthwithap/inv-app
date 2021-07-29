@@ -1,6 +1,5 @@
 package me.darthwithap.invapp.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,14 +9,10 @@ import kotlinx.coroutines.launch
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.invapp.data.repository.AuthRepository
 import me.darthwithap.invapp.utils.Result
-
 import me.darthwithap.invapp.R
-import me.darthwithap.invapp.data.domain.models.User
 import me.darthwithap.invapp.data.domain.utils.UserDtoMapper
 import me.darthwithap.invapp.ui.login.LoginFormState
 import me.darthwithap.invapp.ui.login.LoginResult
-
-private const val TAG = "Splash"
 
 class AuthViewModel : ViewModel() {
 
@@ -73,7 +68,6 @@ class AuthViewModel : ViewModel() {
     }
 
     fun setToken(token: String?) {
-        Log.d(TAG, "setToken: in authViewModel setting token: $token")
         _token.postValue(token)
         _loginResult.value = LoginResult(error = "User logged out")
     }

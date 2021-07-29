@@ -105,20 +105,14 @@ class InvoiceViewModel : ViewModel() {
         }
     }
 
-    fun formDataChanged(name: String, godownId: String?, products: List<ProductData>) {
+    fun formDataChanged(name: String, products: List<ProductData>) {
         if (!isNameValid(name)) {
             _invoiceForm.value = InvoiceFormState(customerError = R.string.invalid_customer_name)
-        } else if (!isGodownValid(godownId)) {
-            _invoiceForm.value = InvoiceFormState(godownError = R.string.invalid_godown_id)
         } else if (!isProductsValid(products)) {
-            _invoiceForm.value = InvoiceFormState(godownError = R.string.invalid_invoice_products)
+            _invoiceForm.value = InvoiceFormState(productsError = R.string.invalid_invoice_products)
         } else {
             _invoiceForm.value = InvoiceFormState(isDataValid = true)
         }
-    }
-
-    private fun isGodownValid(godownId: String?): Boolean {
-        return (godownId?.isNotBlank() == true && godownId != "-1")
     }
 
     private fun isNameValid(name: String): Boolean {

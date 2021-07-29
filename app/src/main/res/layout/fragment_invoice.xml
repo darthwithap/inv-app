@@ -34,25 +34,6 @@
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/tv_invoice_heading" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/spinner_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="12dp"
-        app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@id/products_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_customer_name">
-
-        <Spinner
-            android:id="@+id/spinner_godowns"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/medium_edit_text_height" />
-
-    </androidx.cardview.widget.CardView>
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/products_layout"
         android:layout_width="match_parent"
@@ -60,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_card_view">
+        app:layout_constraintTop_toBottomOf="@+id/et_customer_name">
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -30,19 +30,14 @@ class InvoiceFragment : Fragment() {
     private lateinit var stockViewModel: StockViewModel
     private lateinit var godownViewModel: GodownViewModel
     private var _binding: FragmentInvoiceBinding? = null
-    private var godownId: String? = null
-    private var godownSelected: Boolean = false
+    private var godownId: String = "0"
     private var isDataValid: Boolean = false
-    private var godownError: String? = null
     private var productsError: String? = null
 
     private lateinit var invoiceProductAdapter: InvoiceProductAdapter
     private lateinit var autocompleteAdapter: SearchAutocompleteAdapter
-    private lateinit var godownDropdownAdapter: GodownDropdownAdapter
     private lateinit var loader: ProgressBar
 
-    private val godowns: ArrayList<Godown> = arrayListOf()
-    private val godownItems: ArrayList<GodownItem> = arrayListOf()
     private val suggestions: ArrayList<StockItem> = arrayListOf()
     private val invoiceProducts: ArrayList<ProductData> = arrayListOf()
 
@@ -71,9 +66,10 @@ class InvoiceFragment : Fragment() {
             )
 
         invoiceProductAdapter = InvoiceProductAdapter(autocompleteAdapter,
-            // set stock id on itemClick for autocomplete text view
-            { pos, stock ->
+            // set stock details on itemClick for autocomplete text view
+            { pos, stock, godown ->
                 invoiceProducts[pos].stock = stock
+                invoiceProducts[pos].godown = godown
             },
             // set qty on edit text qty text changed
             { pos, qty ->
@@ -101,14 +97,11 @@ class InvoiceFragment : Fragment() {
                     if (qty.isNotBlank()) invoiceProducts[pos].quantity = qty.toInt()
                     // add next item to invoiceProducts list only if current edit text is last in the row
                     if (invoiceProducts.size - 1 == pos) {
-                        godownId?.let {
-                            invoiceViewModel.formDataChanged(
-                                _binding?.etCustomerName?.text.toString(),
-                                godownId,
-                                getFilteredList()
-                            )
-                            addProductData(it)
-                        }
+                        invoiceViewModel.formDataChanged(
+                            _binding?.etCustomerName?.text.toString(),
+                            getFilteredList()
+                        )
+                        addProductData(godownId)
                     }
                 }
             }
@@ -117,10 +110,6 @@ class InvoiceFragment : Fragment() {
 
         _binding?.etCustomerName?.requestFocus()
 
-        godownDropdownAdapter =
-            GodownDropdownAdapter(requireContext(), R.layout.dropdown_item_godown, godownItems)
-
-        _binding?.spinnerGodowns?.adapter = godownDropdownAdapter
 
         _binding?.rvInvoiceProductItems?.layoutManager = LinearLayoutManager(context)
         _binding?.rvInvoiceProductItems?.adapter = invoiceProductAdapter
@@ -134,7 +123,7 @@ class InvoiceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         _binding?.etCustomerName?.afterTextChanged {
-            invoiceViewModel.formDataChanged(it, godownId, getFilteredList())
+            invoiceViewModel.formDataChanged(it, getFilteredList())
         }
 
         invoiceViewModel.invoiceFormState.observe(viewLifecycleOwner, {
@@ -146,9 +135,6 @@ class InvoiceFragment : Fragment() {
             }
             if (it.productsError != null) {
                 productsError = getString(it.productsError)
-            }
-            if (it.godownError != null) {
-                godownError = getString(it.godownError)
             }
         })
 
@@ -163,41 +149,7 @@ class InvoiceFragment : Fragment() {
             }
         })
 
-        _binding?.spinnerGodowns?.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val godownItem = parent?.selectedItem as GodownItem
-                    godownId = godownItem.id
-                    invoiceViewModel.formDataChanged(
-                        _binding?.etCustomerName?.text.toString(),
-                        godownId,
-                        getFilteredList()
-                    )
-                    if (!godownSelected) godownId?.let {
-                        addProductData(it)
-                    }
-                    godownSelected = godownId != "-1"
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    godownSelected = false
-                }
-            }
-
-        godownViewModel.godownsResult.observe(viewLifecycleOwner, {
-            //loading.visibility = View.GONE
-            if (it.error != null) {
-                showError(it.error)
-            }
-            if (it.success != null) {
-                updateGodownsDropdown(it.success)
-            }
-        })
+        addProductData(godownId)
 
         stockViewModel.searchStockResult.observe(viewLifecycleOwner, {
             if (it.error != null) {
@@ -215,8 +167,7 @@ class InvoiceFragment : Fragment() {
                     _binding?.etCustomerName?.text.toString(),
                     getFilteredList()
                 )
-            } else if (godownError != null) showError(godownError!!)
-            else if (productsError != null) showError(productsError!!)
+            } else if (productsError != null) showError(productsError!!)
             else showError("Invalid form data")
         }
     }
@@ -241,21 +192,6 @@ class InvoiceFragment : Fragment() {
             invoiceProducts.add(ProductData(godownId, 0, ""))
             invoiceProductAdapter.notifyItemInserted(invoiceProducts.size - 1)
         }
-    }
-
-    private fun updateGodownsDropdown(list: List<Godown>) {
-        godowns.clear()
-        godowns.addAll(list)
-
-        godownItems.clear()
-        godownItems.add(GodownItem("-1", "Choose a godown"))
-        val items = godowns.map { godown ->
-            with(godown) {
-                GodownItem(godownId, name)
-            }
-        } as ArrayList<GodownItem>
-        godownItems.addAll(items)
-        godownDropdownAdapter.notifyDataSetChanged()
     }
 
     private fun updateActvAdapter(list: List<StockItem>) {

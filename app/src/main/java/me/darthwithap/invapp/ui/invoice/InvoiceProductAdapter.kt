@@ -1,6 +1,5 @@
 package me.darthwithap.invapp.ui.invoice
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,9 @@ import me.darthwithap.invapp.data.domain.models.StockItem
 import me.darthwithap.invapp.databinding.ListItemInvoiceProductBinding
 import me.darthwithap.invapp.utils.extensions.afterTextChanged
 
-private const val TAG = "InvoiceProductAdapter"
-
 class InvoiceProductAdapter(
     private val autocompleteAdapter: SearchAutocompleteAdapter,
-    private val setStockId: (Int, String) -> Unit,
+    private val setStock: (Int, String, String) -> Unit,
     private val setQty: (Int, String) -> Unit,
     private val searchStock: (String) -> Unit,
     private val actvEditorActionListener: (Int, Int, String) -> Boolean,
@@ -35,6 +32,7 @@ class InvoiceProductAdapter(
     ) {
 
     private var stockId: String = ""
+    private var godownId: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InvoiceViewHolder {
         val binding = ListItemInvoiceProductBinding.inflate(
@@ -76,7 +74,8 @@ class InvoiceProductAdapter(
                 actvQuery.setOnItemClickListener { _, _, position, _ ->
                     val stockItem: StockItem = actvQuery.adapter.getItem(position) as StockItem
                     stockId = stockItem.id
-                    setStockId.invoke(adapterPosition, stockId)
+                    godownId = stockItem.godown
+                    setStock.invoke(adapterPosition, stockId, godownId)
                 }
             }
         }
