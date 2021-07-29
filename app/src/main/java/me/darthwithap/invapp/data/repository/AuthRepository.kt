@@ -4,7 +4,6 @@ import android.util.Log
 import me.darthwithap.api.InvApiClient
 import me.darthwithap.api.models.entities.data.LoginData
 import me.darthwithap.api.models.requests.LoginRequest
-import me.darthwithap.invapp.data.local.AuthDataSourceLocal
 import me.darthwithap.invapp.data.network.AuthDataSource
 import me.darthwithap.invapp.utils.Result
 import java.lang.Exception

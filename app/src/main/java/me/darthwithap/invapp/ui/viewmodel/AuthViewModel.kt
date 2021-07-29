@@ -1,26 +1,25 @@
 package me.darthwithap.invapp.ui.viewmodel
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import me.darthwithap.api.models.entities.dto.UserDto
 import me.darthwithap.api.models.requests.LoginRequest
 import me.darthwithap.invapp.data.repository.AuthRepository
 import me.darthwithap.invapp.utils.Result
 
 import me.darthwithap.invapp.R
-import me.darthwithap.invapp.data.local.AuthDataSourceLocal
+import me.darthwithap.invapp.data.domain.models.User
+import me.darthwithap.invapp.data.domain.utils.UserDtoMapper
 import me.darthwithap.invapp.ui.login.LoginFormState
 import me.darthwithap.invapp.ui.login.LoginResult
 
-class AuthViewModel(val context: Context) : ViewModel() {
+private const val TAG = "Splash"
 
-    private val _user = MutableLiveData<UserDto?>()
-    val user: LiveData<UserDto?> = _user
+class AuthViewModel : ViewModel() {
 
     private val _token = MutableLiveData<String?>()
     val token: LiveData<String?> = _token
@@ -42,9 +41,10 @@ class AuthViewModel(val context: Context) : ViewModel() {
                 AuthRepository.login(LoginRequest(username, password, shop))) {
                 is Result.Success -> {
                     _isLoading.postValue(false)
-                    _user.postValue(result.data.user)
                     _token.postValue(result.data.token)
-                    _loginResult.value = LoginResult(success = result.data.user)
+                    _loginResult.value = LoginResult(
+                        success = result.data.token?.let { UserDtoMapper(it).mapToDomainModel(result.data.user) }
+                    )
                 }
                 is Result.Error -> {
                     _isLoading.postValue(false)
@@ -67,12 +67,17 @@ class AuthViewModel(val context: Context) : ViewModel() {
         }
     }
 
-    // TODO logout functionality in viewmodel
+    // TODO logout functionality in ViewModel
     fun logout() {
-        _user.postValue(null)
+        _token.postValue(null)
     }
 
-    // A placeholder username validation check
+    fun setToken(token: String?) {
+        Log.d(TAG, "setToken: in authViewModel setting token: $token")
+        _token.postValue(token)
+        _loginResult.value = LoginResult(error = "User logged out")
+    }
+
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains('@')) {
             Patterns.EMAIL_ADDRESS.matcher(username).matches()

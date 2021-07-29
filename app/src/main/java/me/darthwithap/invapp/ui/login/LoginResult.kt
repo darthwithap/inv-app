@@ -1,8 +1,8 @@
 package me.darthwithap.invapp.ui.login
 
-import me.darthwithap.api.models.entities.dto.UserDto
+import me.darthwithap.invapp.data.domain.models.User
 
 data class LoginResult(
-    val success: UserDto? = null,
+    val success: User? = null,
     val error: String? = null
 )

@@ -9,6 +9,6 @@ import me.darthwithap.invapp.data.local.entity.SalesInvoiceEntity
 
 @Dao
 interface InvoiceDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInvoice(invoice: InvoiceEntity)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertInvoice(invoice: InvoiceEntity)
 }

@@ -1,14 +1,14 @@
 package me.darthwithap.invapp.data.local.entity
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
+import androidx.room.*
+import me.darthwithap.invapp.data.domain.models.User
 
 @Entity(tableName = "login_data_table")
-data class LoginDataEntity(
-    @ColumnInfo(name = "token")
-    var token: String? = null,
-    @Embedded
-    @ColumnInfo(name = "user")
-    var user: UserEntity? = null
-)
+data class LoginDataEntity(@PrimaryKey(autoGenerate = true) val id: Int)
+//    (
+//    @PrimaryKey(autoGenerate = false)
+//    @ColumnInfo(name = "token")
+//    var token: String,
+//    @Embedded(prefix = "user")
+//    var user: User
+//)

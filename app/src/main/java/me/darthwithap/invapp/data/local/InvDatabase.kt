@@ -5,9 +5,19 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import me.darthwithap.invapp.data.local.dao.*
+import me.darthwithap.invapp.data.local.entity.*
 
 
-@Database(entities = [], version = 1, exportSchema = false)
+@Database(
+    entities = [
+        GodownEntity::class, InvoiceEntity::class,
+        LoginDataEntity::class, SalesInvoiceEntity::class,
+        StockEntity::class, StockHistoryEntity::class,
+        StockItemEntity::class
+    ],
+    version = 1,
+    exportSchema = false
+)
 abstract class InvDatabase : RoomDatabase() {
 
     abstract fun authDao(): AuthDao

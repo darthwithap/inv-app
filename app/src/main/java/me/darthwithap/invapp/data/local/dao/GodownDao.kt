@@ -8,9 +8,9 @@ import me.darthwithap.invapp.data.local.entity.GodownEntity
 
 @Dao
 interface GodownDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertNewGodown(godown: GodownEntity)
-
-    @Query("SELECT * FROM godown_table")
-    suspend fun getAllGodowns(): List<GodownEntity>
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertNewGodown(godown: GodownEntity)
+//
+//    @Query("SELECT * FROM godown_table")
+//    suspend fun getAllGodowns(): List<GodownEntity>
 }

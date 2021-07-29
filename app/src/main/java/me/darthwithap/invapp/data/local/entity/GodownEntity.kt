@@ -8,10 +8,9 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "godown_table")
-data class GodownEntity(
-    @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "id")
-    val id: String,
-    @ColumnInfo(name = "name")
-    val name: String
-)
+data class GodownEntity(@PrimaryKey(autoGenerate = true) val id: Int)
+//    @PrimaryKey(autoGenerate = false)
+//    @ColumnInfo(name = "id")
+//    val id: String,
+//    @ColumnInfo(name = "name")
+//    val name: String
