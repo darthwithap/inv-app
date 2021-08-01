@@ -24,8 +24,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginHorizontal="0dp"
+            app:itemTextColor="@color/black"
+            app:itemTextAppearanceInactive="@color/justBlack"
             android:background="?android:attr/windowBackground"
-            app:labelVisibilityMode="unlabeled"
+            app:labelVisibilityMode="labeled"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:menu="@menu/bottom_navigation_menu" />
 

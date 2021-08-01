@@ -1,10 +1,12 @@
 package me.darthwithap.invapp.ui.orders
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,9 +18,8 @@ import me.darthwithap.invapp.ui.orders.adapter.GodownChipAdapter
 import me.darthwithap.invapp.ui.orders.adapter.GodownOrderAdapter
 import me.darthwithap.invapp.ui.viewmodel.GodownViewModel
 import me.darthwithap.invapp.ui.viewmodel.InvoiceViewModel
-import kotlin.math.log
 
-private const val TAG = "OrdersFragment"
+private const val TAG = "TAG"
 
 class OrdersFragment : Fragment() {
 
@@ -28,12 +29,16 @@ class OrdersFragment : Fragment() {
     private val binding get() = _binding
 
     private var godownIndex = 0
+    private var globalCheckCount = 0
 
     private lateinit var godownChipAdapter: GodownChipAdapter
     private lateinit var godownOrdersAdapter: GodownOrderAdapter
     private val godowns: ArrayList<Godown> = arrayListOf()
     private val invoices: ArrayList<Invoice> = arrayListOf()
+    private var currGodownId: String = ""
+    private val pendingOrdersDataMap: HashMap<String, ArrayList<String>> = hashMapOf()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,17 +61,32 @@ class OrdersFragment : Fragment() {
             godownViewModel.onCurrentGodownChanged(id)
         }
 
-        godownOrdersAdapter = GodownOrderAdapter(invoices) { buttonView, isChecked ->
-            if (buttonView.isChecked) {
-                Log.d(TAG, "onCreateView: buttonView.isChecked: true")
-            } else
-                Log.d(TAG, "onCreateView: buttonView.isChecked: false")
-            if (isChecked) Log.d(TAG, "onCreateView: isChecked: true")
-            else Log.d(TAG, "onCreateView: isChecked: false")
+        godownOrdersAdapter = GodownOrderAdapter(invoices) { _, isChecked, productId, invoiceId ->
+            pendingOrdersDataMap.getOrPut(invoiceId, { arrayListOf() })
+            if (isChecked) {
+                globalCheckCount++
+                pendingOrdersDataMap[invoiceId]?.add(productId)
+            } else {
+                globalCheckCount--
+                pendingOrdersDataMap[invoiceId]?.removeIf { it == productId }
+            }
+            Log.d(TAG, "onCreateView: $pendingOrdersDataMap")
         }
         _binding?.rvGodownOrders?.adapter = godownOrdersAdapter
 
         _binding?.rvGodownChips?.adapter = godownChipAdapter
+
+        _binding?.btnDone?.setOnClickListener {
+            if (pendingOrdersDataMap.isNotEmpty()) {
+                pendingOrdersDataMap.forEach {
+                    if (it.value.isNotEmpty()) {
+                        invoiceViewModel.updatePendingOrdersStatusFor(it.key, it.value)
+                    }
+                }
+            } else {
+                showError("No products set as delivered")
+            }
+        }
 
         return binding?.root
     }
@@ -85,7 +105,10 @@ class OrdersFragment : Fragment() {
         })
 
         godownViewModel.currGodownId.observe(viewLifecycleOwner, {
+            if (currGodownId != it) godownChipAdapter.setCurrentGodown(it)
+            godownChipAdapter.notifyDataSetChanged()
             invoiceViewModel.getPendingOrdersForGodown(it)
+            pendingOrdersDataMap.clear()
         })
 
         invoiceViewModel.pendingOrdersResult.observe(viewLifecycleOwner, {

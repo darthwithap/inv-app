@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import me.darthwithap.invapp.R
 import me.darthwithap.invapp.data.domain.models.Godown
 import me.darthwithap.invapp.databinding.ListItemGodownChipBinding
 
@@ -12,6 +13,8 @@ class GodownChipAdapter(
     private val onClick: (id: String, name: String) -> Unit
 ) :
     RecyclerView.Adapter<GodownChipAdapter.ViewHolder>() {
+
+    private var currGodown: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ListItemGodownChipBinding.inflate(
@@ -34,10 +37,16 @@ class GodownChipAdapter(
         fun bind(item: Godown) {
             ListItemGodownChipBinding.bind(itemView).apply {
                 with(item) {
+                    if (currGodown == godownId) root.setChipBackgroundColorResource(R.color.colorPrimary)
+                    else root.setChipBackgroundColorResource(R.color.colorPrimary20)
                     tvGodownName.text = name
                     root.setOnClickListener { onClick.invoke(godownId, name) }
                 }
             }
         }
+    }
+
+    fun setCurrentGodown(godownId: String) {
+        currGodown = godownId
     }
 }
